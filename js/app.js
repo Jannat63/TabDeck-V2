@@ -436,6 +436,7 @@ async function loadState() {
   applyTheme(S.settings.theme);
   applyCardGlow(S.settings.cardGlow || 'glow');
   initWallpaper();
+  if (S.settings.pack === 'jannat') setTimeout(initJannatDesign, 600);
   document.body.classList.toggle('grid-view-mode', !!S.settings.gridView);
   el('gridViewBtn')?.classList.toggle('active', !!S.settings.gridView);
   document.body.classList.toggle('sidebar-collapsed', !!S.settings.sidebarCollapsed);
@@ -704,6 +705,7 @@ async function fetchWeather(locationOverride) {
     el('weatherCity').textContent = locationStr;
     el('weatherDesc').textContent = c.weatherDesc?.[0]?.value || '';
     el('weatherWidget')?.classList.remove('weather-loading');
+    if (S.settings.pack === 'jannat') syncJannatWeather();
     return true;
   } catch {
     el('weatherCity').textContent = 'Unavailable';
@@ -3240,6 +3242,7 @@ function setQuoteLoading(on) {
 function showQuoteData(q) {
   el('quoteText').textContent = q.quote;
   el('quoteAuthor').textContent = `— ${q.author}`;
+  if (S.settings.pack === 'jannat') syncJannatQuote();
 }
 
 async function renderQuote() {
@@ -3696,7 +3699,7 @@ function applyAccent(color) {
 function applyPack(pack) {
   if (pack !== 'brutal' && pack !== 'atelier' && pack !== 'holodeck' && pack !== 'mono'
       && pack !== 'aurora' && pack !== 'ember' && pack !== 'sakura'
-      && pack !== 'obsidian' && pack !== 'aura') pack = 'default';
+      && pack !== 'obsidian' && pack !== 'aura' && pack !== 'jannat') pack = 'default';
   S.settings.pack = pack;
   document.documentElement.dataset.pack = pack;
   const link = document.getElementById('theme-pack-css');
@@ -3715,6 +3718,7 @@ function applyPack(pack) {
   }
   // Mono has no glow — force off regardless of stored setting.
   applyCardGlow(pack === 'mono' ? 'off' : (S.settings.cardGlow || 'glow'));
+  if (pack === 'jannat') setTimeout(initJannatDesign, 400);
   // Update picker UI active state.
   document.querySelectorAll('#packPicker .pack-card').forEach(b => {
     b.classList.toggle('active', b.dataset.pack === pack);
@@ -3821,6 +3825,100 @@ function initWallpaper() {
   // Schedule rotations
   const ms = (wp.interval || 5) * 60 * 1000;
   _wpTimer = setInterval(_wpLoadNext, ms);
+}
+
+// ===== JANNAT DESIGN ENGINE =====
+function syncJannatWeather() {
+  const icon = el('weatherIcon')?.textContent || '⛅';
+  const temp = el('weatherTemp')?.textContent || '--°C';
+  const desc = el('weatherDesc')?.textContent || '';
+  const city = el('weatherCity')?.textContent || 'Detecting...';
+  const jIcon = el('jdWcIcon'); if (jIcon) jIcon.textContent = icon;
+  const jTemp = el('jdWcTemp'); if (jTemp) jTemp.textContent = temp;
+  const jDesc = el('jdWcDesc'); if (jDesc) jDesc.textContent = desc;
+  const jCity = el('jdWcCity');
+  if (jCity) jCity.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${escH(city)}`;
+}
+
+function syncJannatQuote() {
+  const text   = el('quoteText')?.textContent   || '';
+  const author = el('quoteAuthor')?.textContent || '—';
+  const jText   = el('jdQcText');   if (jText)   jText.textContent = text;
+  const jAuthor = el('jdQcAuthor'); if (jAuthor) jAuthor.textContent = author;
+}
+
+function _jdTimeAgo(ts) {
+  const diff = Date.now() - ts;
+  if (diff < 60000)    return 'just now';
+  if (diff < 3600000)  return `${Math.floor(diff/60000)}m ago`;
+  if (diff < 86400000) return `${Math.floor(diff/3600000)}h ago`;
+  return `${Math.floor(diff/86400000)}d ago`;
+}
+
+async function renderJannatRecentlyUsed() {
+  const list = el('jdRuList');
+  if (!list) return;
+  const items = [];
+
+  // Recent notes (top 3 by last update)
+  const notes = (S.wsData[S.activeWsId]?.notes || []);
+  notes.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).slice(0,3).forEach(n => {
+    const name = (n.text||'').split('\n')[0].replace(/#\w+/g,'').trim() || 'Untitled Note';
+    items.push({ type:'note', label:'Note', name, icon:null, time: n.updatedAt||Date.now() });
+  });
+
+  // Recent browser history (Chrome only, last 7 days)
+  if (IS_CHROME && chrome.history) {
+    try {
+      const hist = await new Promise(r => chrome.history.search({ text:'', maxResults:10, startTime: Date.now()-7*24*3600*1000 }, r));
+      hist.forEach(h => {
+        if (!h.url || h.url.startsWith('chrome://')) return;
+        items.push({ type:'link', label:'Bookmark', name: h.title || getDomain(h.url), url: h.url, favicon: favSrc(h.url), time: h.lastVisitTime||Date.now() });
+      });
+    } catch(_) {}
+  }
+
+  items.sort((a,b)=>b.time-a.time);
+  const top = items.slice(0,8);
+  if (!top.length) { list.innerHTML = '<div class="jd-ru-loading">Nothing recently used yet.</div>'; return; }
+
+  list.innerHTML = top.map(item => {
+    const ago = _jdTimeAgo(item.time);
+    const iconHtml = item.type === 'note'
+      ? `<div class="jd-ru-icon">📝</div>`
+      : `<div class="jd-ru-icon"><img src="${escH(item.favicon)}" alt="" onerror="this.parentNode.textContent='🔗'"></div>`;
+    const tag = item.url ? 'a' : 'div';
+    const href = item.url ? ` href="${escH(item.url)}" target="_blank"` : '';
+    return `<${tag} class="jd-ru-item"${href}>${iconHtml}<div class="jd-ru-info"><div class="jd-ru-name">${escH(item.name||'Untitled')}</div><div class="jd-ru-meta">${escH(item.label)} · ${escH(ago)}</div></div></${tag}>`;
+  }).join('');
+}
+
+function initJannatDesign() {
+  if (S.settings.pack !== 'jannat') return;
+
+  // Sync weather & quote into floating mirror cards after data loads
+  setTimeout(() => { syncJannatWeather(); syncJannatQuote(); }, 900);
+
+  // Render recently used list
+  renderJannatRecentlyUsed();
+
+  // Center search bar — clicking/typing opens command palette
+  const csInput = el('jdCsInput');
+  if (csInput) {
+    csInput.addEventListener('focus', () => { setTimeout(openCmdPalette, 60); csInput.blur(); });
+    csInput.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key.length === 1) { e.preventDefault(); openCmdPalette(); } });
+  }
+  el('jdCsBtn')?.addEventListener('click', openCmdPalette);
+
+  // Quick Action buttons
+  el('jdQaNote')?.addEventListener('click', () => el('addNoteBtn')?.click());
+  el('jdQaBm')?.addEventListener('click',   () => el('searchTriggerBtn')?.click());
+  el('jdQaDl')?.addEventListener('click',   () => navigateTo('downloads'));
+
+  // Recently Used clear
+  el('jdRuClear')?.addEventListener('click', () => {
+    if (el('jdRuList')) el('jdRuList').innerHTML = '<div class="jd-ru-loading">Cleared.</div>';
+  });
 }
 function applyWidgetVisibility() {
   const w = S.settings.widgets;

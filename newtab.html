@@ -200,7 +200,47 @@
             </div>
           </div>
         </div>
+
+        <!-- JANNAT DESIGN ONLY: right-side floating cards + hero sub quote -->
+        <div class="jd-right-col" id="jdRightCol">
+          <div class="jd-w-card" id="jdWCard">
+            <div class="jd-wc-left">
+              <span class="jd-wc-icon" id="jdWcIcon">⛅</span>
+            </div>
+            <div class="jd-wc-info">
+              <span class="jd-wc-temp" id="jdWcTemp">--°C</span>
+              <span class="jd-wc-desc" id="jdWcDesc">Loading…</span>
+              <span class="jd-wc-city" id="jdWcCity">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Detecting...
+              </span>
+            </div>
+          </div>
+          <div class="jd-q-card" id="jdQCard">
+            <div class="jd-qc-mark">"</div>
+            <p class="jd-qc-text" id="jdQcText">Loading…</p>
+            <span class="jd-qc-author" id="jdQcAuthor">—</span>
+          </div>
+        </div>
+        <p class="jd-hero-sub" id="jdHeroSub">Focus on progress, not perfection.</p>
+
       </section>
+      <div class="jd-center-search" id="jdCenterSearch">
+        <div class="jd-cs-inner">
+          <span class="jd-cs-spark">✦</span>
+          <input class="jd-cs-input" id="jdCsInput" placeholder="Ask anything or search...">
+          <button class="jd-cs-btn" id="jdCsBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+          </button>
+        </div>
+        <div class="jd-cs-chips">
+          <a class="jd-chip" href="https://chat.openai.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=16" width="14" height="14" alt=""> ChatGPT</a>
+          <a class="jd-chip" href="https://youtube.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=16" width="14" height="14" alt=""> YouTube</a>
+          <a class="jd-chip" href="https://notion.so" target="_blank"><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=16" width="14" height="14" alt=""> Notion</a>
+          <a class="jd-chip" href="https://google.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=16" width="14" height="14" alt=""> Google</a>
+          <button class="jd-chip jd-chip-add" id="jdAddChipBtn">+ Add new</button>
+        </div>
+      </div>
 
       <!-- Workspace Tabs -->
       <div class="workspace-tabs-bar">
@@ -311,6 +351,55 @@
           </div>
 
         </div>
+
+        <!-- JANNAT DESIGN ONLY: Quick Actions Panel -->
+        <div class="jd-quick-actions" id="jdQuickActions">
+          <div class="jd-qa-hdr">
+            <span>Quick Actions</span>
+            <button class="jd-qa-edit">✎ Edit</button>
+          </div>
+          <div class="jd-qa-grid">
+            <button class="jd-qa-btn" id="jdQaNote">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#7c5af7,#9d7cf8)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+              </div>
+              <span>New Note</span>
+            </button>
+            <button class="jd-qa-btn" id="jdQaBm">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+              </div>
+              <span>Bookmark</span>
+            </button>
+            <a class="jd-qa-btn" href="https://chat.openai.com" target="_blank">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#10b981,#34d399)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <span>Open ChatGPT</span>
+            </a>
+            <button class="jd-qa-btn" id="jdQaDl">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <span>Downloads</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- JANNAT DESIGN ONLY: Recently Used -->
+        <div class="jd-recently-used" id="jdRecentlyUsed">
+          <div class="jd-ru-hdr">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+              Recently Used
+            </span>
+            <button class="jd-ru-clear" id="jdRuClear">Clear all ↓</button>
+          </div>
+          <div class="jd-ru-list" id="jdRuList">
+            <div class="jd-ru-loading">Loading…</div>
+          </div>
+        </div>
+
       </div>
     </div><!-- /view-home -->
 
@@ -542,6 +631,13 @@
             <span class="pack-meta">
               <span class="pack-name">Aura</span>
               <span class="pack-desc">Iridescent · violet-rose-sky · shimmer</span>
+            </span>
+          </button>
+          <button class="pack-card" data-pack="jannat">
+            <span class="pack-swatch pack-swatch-jannat"></span>
+            <span class="pack-meta">
+              <span class="pack-name">Jannat Design</span>
+              <span class="pack-desc">Space navy · purple pill · cover art cards</span>
             </span>
           </button>
         </div>

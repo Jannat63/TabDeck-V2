@@ -705,7 +705,7 @@ async function fetchWeather(locationOverride) {
     el('weatherCity').textContent = locationStr;
     el('weatherDesc').textContent = c.weatherDesc?.[0]?.value || '';
     el('weatherWidget')?.classList.remove('weather-loading');
-    if (S.settings.pack === 'jannat') syncJannatWeather();
+    if (S.settings.pack === 'jannat' || S.settings.pack === 'jannat-v2') syncJannatWeather();
     return true;
   } catch {
     el('weatherCity').textContent = 'Unavailable';
@@ -3242,7 +3242,7 @@ function setQuoteLoading(on) {
 function showQuoteData(q) {
   el('quoteText').textContent = q.quote;
   el('quoteAuthor').textContent = `— ${q.author}`;
-  if (S.settings.pack === 'jannat') syncJannatQuote();
+  if (S.settings.pack === 'jannat' || S.settings.pack === 'jannat-v2') syncJannatQuote();
 }
 
 async function renderQuote() {
@@ -3971,6 +3971,7 @@ function importData(file) {
       applyTheme(S.settings.theme);
       applyAccent(S.settings.accentColor);
       initWallpaper();
+      if (S.settings.pack === 'jannat' || S.settings.pack === 'jannat-v2') setTimeout(initJannatDesign, 500);
       showToast('Data imported successfully!', 'success');
     } catch {
       showToast('Invalid file format', 'error');

@@ -102,6 +102,14 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="themeIcon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       <span id="themeLabel">Dark</span>
     </button>
+    <!-- JANNAT DESIGN: User Profile Card -->
+    <div class="jd-user-profile" id="jdUserProfile">
+      <div class="jd-up-avatar" id="jdUpAvatar">A</div>
+      <div class="jd-up-info">
+        <span class="jd-up-name" id="jdUpName">User</span>
+        <span class="jd-up-badge">👑 Pro Plan</span>
+      </div>
+    </div>
   </div>
 </aside>
 
@@ -225,20 +233,56 @@
         <p class="jd-hero-sub" id="jdHeroSub">Focus on progress, not perfection.</p>
 
       </section>
-      <div class="jd-center-search" id="jdCenterSearch">
-        <div class="jd-cs-inner">
-          <span class="jd-cs-spark">✦</span>
-          <input class="jd-cs-input" id="jdCsInput" placeholder="Ask anything or search...">
-          <button class="jd-cs-btn" id="jdCsBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
-          </button>
+
+      <!-- JANNAT DESIGN: Search bar + Quick Actions — side by side -->
+      <div class="jd-search-qa-row" id="jdSearchQaRow">
+        <div class="jd-center-search" id="jdCenterSearch">
+          <div class="jd-cs-inner">
+            <span class="jd-cs-spark">✦</span>
+            <input class="jd-cs-input" id="jdCsInput" placeholder="Ask anything or search...">
+            <button class="jd-cs-btn" id="jdCsBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+            </button>
+          </div>
+          <div class="jd-cs-chips">
+            <a class="jd-chip" href="https://chat.openai.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=16" width="14" height="14" alt=""> ChatGPT</a>
+            <a class="jd-chip" href="https://youtube.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=16" width="14" height="14" alt=""> YouTube</a>
+            <a class="jd-chip" href="https://notion.so" target="_blank"><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=16" width="14" height="14" alt=""> Notion</a>
+            <a class="jd-chip" href="https://google.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=16" width="14" height="14" alt=""> Google</a>
+            <button class="jd-chip jd-chip-add" id="jdAddChipBtn">+ Add new</button>
+          </div>
         </div>
-        <div class="jd-cs-chips">
-          <a class="jd-chip" href="https://chat.openai.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=16" width="14" height="14" alt=""> ChatGPT</a>
-          <a class="jd-chip" href="https://youtube.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=16" width="14" height="14" alt=""> YouTube</a>
-          <a class="jd-chip" href="https://notion.so" target="_blank"><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=16" width="14" height="14" alt=""> Notion</a>
-          <a class="jd-chip" href="https://google.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=16" width="14" height="14" alt=""> Google</a>
-          <button class="jd-chip jd-chip-add" id="jdAddChipBtn">+ Add new</button>
+        <div class="jd-quick-actions" id="jdQuickActions">
+          <div class="jd-qa-hdr">
+            <span>Quick Actions</span>
+            <button class="jd-qa-edit">✎ Edit</button>
+          </div>
+          <div class="jd-qa-grid">
+            <button class="jd-qa-btn" id="jdQaNote">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#7c5af7,#9d7cf8)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+              </div>
+              <span>New Note</span>
+            </button>
+            <button class="jd-qa-btn" id="jdQaBm">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+              </div>
+              <span>Bookmark</span>
+            </button>
+            <a class="jd-qa-btn" href="https://chat.openai.com" target="_blank">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#10b981,#34d399)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <span>Open ChatGPT</span>
+            </a>
+            <button class="jd-qa-btn" id="jdQaDl">
+              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <span>Downloads</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -350,40 +394,6 @@
             </div>
           </div>
 
-        </div>
-
-        <!-- JANNAT DESIGN ONLY: Quick Actions Panel -->
-        <div class="jd-quick-actions" id="jdQuickActions">
-          <div class="jd-qa-hdr">
-            <span>Quick Actions</span>
-            <button class="jd-qa-edit">✎ Edit</button>
-          </div>
-          <div class="jd-qa-grid">
-            <button class="jd-qa-btn" id="jdQaNote">
-              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#7c5af7,#9d7cf8)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-              </div>
-              <span>New Note</span>
-            </button>
-            <button class="jd-qa-btn" id="jdQaBm">
-              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
-              </div>
-              <span>Bookmark</span>
-            </button>
-            <a class="jd-qa-btn" href="https://chat.openai.com" target="_blank">
-              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#10b981,#34d399)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-              </div>
-              <span>Open ChatGPT</span>
-            </a>
-            <button class="jd-qa-btn" id="jdQaDl">
-              <div class="jd-qa-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </div>
-              <span>Downloads</span>
-            </button>
-          </div>
         </div>
 
         <!-- JANNAT DESIGN ONLY: Recently Used -->
@@ -638,6 +648,13 @@
             <span class="pack-meta">
               <span class="pack-name">Jannat Design</span>
               <span class="pack-desc">Space navy · purple pill · cover art cards</span>
+            </span>
+          </button>
+          <button class="pack-card" data-pack="jannat-v2">
+            <span class="pack-swatch pack-swatch-jannat-v2"></span>
+            <span class="pack-meta">
+              <span class="pack-name">Jannat Design V2</span>
+              <span class="pack-desc">Light lavender · glassmorphism · icon cards</span>
             </span>
           </button>
         </div>

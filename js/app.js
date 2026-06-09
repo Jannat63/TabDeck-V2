@@ -436,7 +436,7 @@ async function loadState() {
   applyTheme(S.settings.theme);
   applyCardGlow(S.settings.cardGlow || 'glow');
   initWallpaper();
-  if (S.settings.pack === 'jannat') setTimeout(initJannatDesign, 600);
+  if (S.settings.pack === 'jannat' || S.settings.pack === 'jannat-v2') setTimeout(initJannatDesign, 600);
   document.body.classList.toggle('grid-view-mode', !!S.settings.gridView);
   el('gridViewBtn')?.classList.toggle('active', !!S.settings.gridView);
   document.body.classList.toggle('sidebar-collapsed', !!S.settings.sidebarCollapsed);
@@ -3699,7 +3699,9 @@ function applyAccent(color) {
 function applyPack(pack) {
   if (pack !== 'brutal' && pack !== 'atelier' && pack !== 'holodeck' && pack !== 'mono'
       && pack !== 'aurora' && pack !== 'ember' && pack !== 'sakura'
-      && pack !== 'obsidian' && pack !== 'aura' && pack !== 'jannat') pack = 'default';
+      && pack !== 'obsidian' && pack !== 'aura'
+      && pack !== 'jannat'   && pack !== 'jannat-v2') pack = 'default';
+
   S.settings.pack = pack;
   document.documentElement.dataset.pack = pack;
   const link = document.getElementById('theme-pack-css');
@@ -3718,7 +3720,7 @@ function applyPack(pack) {
   }
   // Mono has no glow — force off regardless of stored setting.
   applyCardGlow(pack === 'mono' ? 'off' : (S.settings.cardGlow || 'glow'));
-  if (pack === 'jannat') setTimeout(initJannatDesign, 400);
+  if (pack === 'jannat' || pack === 'jannat-v2') setTimeout(initJannatDesign, 400);
   // Update picker UI active state.
   document.querySelectorAll('#packPicker .pack-card').forEach(b => {
     b.classList.toggle('active', b.dataset.pack === pack);
@@ -3894,13 +3896,23 @@ async function renderJannatRecentlyUsed() {
 }
 
 function initJannatDesign() {
-  if (S.settings.pack !== 'jannat') return;
+  const pack = S.settings.pack;
+  if (pack !== 'jannat' && pack !== 'jannat-v2') return;
 
   // Sync weather & quote into floating mirror cards after data loads
   setTimeout(() => { syncJannatWeather(); syncJannatQuote(); }, 900);
 
   // Render recently used list
   renderJannatRecentlyUsed();
+
+  // Populate user profile (shown in V2)
+  const name = S.user.googleName || S.user.name || 'User';
+  const initial = (name[0] || 'U').toUpperCase();
+  const jdName   = el('jdUpName');   if (jdName)   jdName.textContent = name;
+  const jdAvatar = el('jdUpAvatar'); if (jdAvatar) jdAvatar.textContent = initial;
+  if (S.user.googlePicture && jdAvatar) {
+    jdAvatar.innerHTML = `<img src="${escH(S.user.googlePicture)}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.parentNode.textContent='${escH(initial)}'">`;
+  }
 
   // Center search bar — clicking/typing opens command palette
   const csInput = el('jdCsInput');

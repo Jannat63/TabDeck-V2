@@ -874,9 +874,11 @@ body.grid-view-mode .ws-bm-add-card.qa-add-btn{min-height:37px;padding:6px 10px;
 .pack-swatch-obsidian{background:linear-gradient(135deg,#050507 0%,#050507 50%,#38bdf8 50%,#38bdf8 100%)}
 .pack-swatch-aura{background:linear-gradient(135deg,#080612 0%,#080612 50%,#a855f7 50%,#ec4899 100%)}
 .pack-swatch-jannat{background:linear-gradient(135deg,#0d0b1a 0%,#0d0b1a 50%,#7c5af7 50%,#9d7cf8 100%)}
+.pack-swatch-jannat-v2{background:linear-gradient(135deg,#ede8ff 0%,#ede8ff 50%,#7c5af7 50%,#9d7cf8 100%)}
 
-/* Hide all Jannat-Design-only elements in every other theme */
-.jd-center-search,.jd-right-col,.jd-hero-sub,.jd-quick-actions,.jd-recently-used{display:none}
+/* Hide all Jannat-only elements in every other theme */
+.jd-center-search,.jd-right-col,.jd-hero-sub,.jd-quick-actions,
+.jd-recently-used,.jd-search-qa-row,.jd-user-profile{display:none}
 .pack-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
 .pack-name{font-weight:700;font-size:13px}
 .pack-desc{font-size:11px;color:var(--text-muted)}

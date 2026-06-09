@@ -1,0 +1,280 @@
+/* TabDeck — JANNAT DESIGN V2 (light lavender glass)
+   Layout rules inherited from jannat.css via @import.
+   Only colour, typography and style overrides here. */
+
+@import url('jannat.css');
+
+/* ─── VARIABLES ─────────────────────────────────────── */
+:root,[data-pack="jannat-v2"]:root,[data-pack="jannat-v2"]{
+  --bg-body:#e8e4ff;
+  --bg-sidebar:#ddd8ff;
+  --bg-modal:#ffffff;
+  --bg-card:rgba(255,255,255,0.55);
+  --bg-card-hover:rgba(255,255,255,0.80);
+  --bg-input:rgba(0,0,0,0.04);
+  --accent:#6d42f5;
+  --accent-light:#8b65f7;
+  --accent-bg:rgba(109,66,245,0.12);
+  --accent-subtle:rgba(109,66,245,0.06);
+  --accent-glow:rgba(109,66,245,0.35);
+  --green:#16a34a;--orange:#d97706;--red:#dc2626;
+  --text-primary:#1a0f3c;
+  --text-secondary:#5a40a0;
+  --text-muted:#a898d0;
+  --border:rgba(109,66,245,0.16);
+  --border-hover:rgba(109,66,245,0.32);
+  --radius:14px;--radius-sm:9px;
+  --shadow:0 4px 24px rgba(109,66,245,0.12);
+  --transition:0.2s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── BODY — rich lavender gradient for glass contrast ── */
+[data-pack="jannat-v2"] body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:
+    radial-gradient(ellipse 110% 65% at 55% 0%,   rgba(139,92,246,0.35) 0%,transparent 55%),
+    radial-gradient(ellipse 70%  50% at 100% 80%,  rgba(167,139,250,0.28) 0%,transparent 50%),
+    radial-gradient(ellipse 55%  45% at 0%   70%,  rgba(124,90,247,0.22) 0%,transparent 50%),
+    radial-gradient(ellipse 80%  55% at 50%  100%, rgba(196,181,253,0.20) 0%,transparent 55%),
+    #e4dffe;
+}
+
+/* ─── SIDEBAR ────────────────────────────────────────── */
+[data-pack="jannat-v2"] .sidebar{
+  background:rgba(221,216,255,0.85);
+  border-right:1px solid rgba(109,66,245,0.12);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+[data-pack="jannat-v2"] .logo{border-bottom-color:rgba(109,66,245,0.12)}
+[data-pack="jannat-v2"] .logo-icon{color:#6d42f5;filter:drop-shadow(0 0 8px rgba(109,66,245,0.55))}
+[data-pack="jannat-v2"] .nav-item:hover{background:rgba(109,66,245,0.10)}
+[data-pack="jannat-v2"] .nav-item.active{background:#6d42f5!important;color:#fff!important;box-shadow:0 4px 14px rgba(109,66,245,0.38)!important}
+[data-pack="jannat-v2"] .section-header{color:rgba(90,64,160,0.52)}
+[data-pack="jannat-v2"] .sidebar-folder-item:hover{background:rgba(109,66,245,0.09)}
+[data-pack="jannat-v2"] .sidebar-folder-item.active{background:rgba(109,66,245,0.15);color:#6d42f5}
+[data-pack="jannat-v2"] .sidebar-folder-count{background:rgba(109,66,245,0.12);color:#6d42f5}
+[data-pack="jannat-v2"] .workspace-sidebar-item.active{background:rgba(109,66,245,0.15);color:#6d42f5;border-left:none!important}
+[data-pack="jannat-v2"] .workspace-sidebar-item:hover{background:rgba(109,66,245,0.08)}
+[data-pack="jannat-v2"] .icon-btn{background:rgba(109,66,245,0.10);border:1px solid rgba(109,66,245,0.18);color:#6d42f5}
+[data-pack="jannat-v2"] .icon-btn:hover{background:rgba(109,66,245,0.20)}
+[data-pack="jannat-v2"] .sidebar-footer{
+  background:rgba(221,216,255,0.90);
+  border-top:1px solid rgba(109,66,245,0.12);
+  backdrop-filter:blur(8px);
+  flex-direction:column;
+  height:auto;
+  padding:12px 14px 14px;
+  gap:10px;
+}
+[data-pack="jannat-v2"] .footer-btn{background:rgba(109,66,245,0.08);border:1px solid rgba(109,66,245,0.14);color:var(--text-secondary)}
+[data-pack="jannat-v2"] .footer-btn:hover{background:rgba(109,66,245,0.18);color:#6d42f5}
+
+/* User profile (shown only in V2) */
+[data-pack="jannat-v2"] .jd-user-profile{
+  display:flex!important;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,0.60);
+  border:1px solid rgba(109,66,245,0.16);
+  border-radius:12px;
+  padding:10px 12px;
+  backdrop-filter:blur(12px);
+}
+[data-pack="jannat-v2"] .jd-up-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#6d42f5,#9d7cf8);
+  color:white;font-weight:700;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 2px 8px rgba(109,66,245,0.30);
+}
+[data-pack="jannat-v2"] .jd-up-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+[data-pack="jannat-v2"] .jd-up-name{font-size:13px;font-weight:700;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-pack="jannat-v2"] .jd-up-badge{font-size:11px;color:#6d42f5;font-weight:600;background:rgba(109,66,245,0.10);padding:1px 8px;border-radius:99px;width:fit-content}
+
+/* Sync card */
+[data-pack="jannat-v2"] .sync-card{background:linear-gradient(135deg,rgba(109,66,245,0.10),rgba(196,181,253,0.10));border:1px solid rgba(109,66,245,0.18)}
+[data-pack="jannat-v2"] .sign-in-btn{background:linear-gradient(135deg,#6d42f5,#9d7cf8);box-shadow:0 4px 16px rgba(109,66,245,0.35)}
+[data-pack="jannat-v2"] .sign-in-btn.signed-in{background:rgba(109,66,245,0.10);color:#6d42f5;border:1px solid rgba(109,66,245,0.22);box-shadow:none}
+[data-pack="jannat-v2"] .sync-icon{background:linear-gradient(135deg,#6d42f5,#9d7cf8);color:white}
+
+/* ─── TOPBAR ─────────────────────────────────────────── */
+[data-pack="jannat-v2"] .topbar{
+  background:rgba(228,220,255,0.80);
+  border-bottom:1px solid rgba(109,66,245,0.14);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+[data-pack="jannat-v2"] .search-trigger{background:rgba(255,255,255,0.60);border:1px solid rgba(109,66,245,0.18);border-radius:12px}
+[data-pack="jannat-v2"] .search-trigger:hover{border-color:rgba(109,66,245,0.32);background:rgba(255,255,255,0.80)}
+[data-pack="jannat-v2"] .topbar-btn{background:rgba(255,255,255,0.55);border:1px solid rgba(109,66,245,0.14);color:var(--text-secondary);border-radius:10px}
+[data-pack="jannat-v2"] .topbar-btn:hover{background:rgba(255,255,255,0.85);color:#6d42f5}
+[data-pack="jannat-v2"] .topbar-btn.active{background:rgba(109,66,245,0.14);color:#6d42f5;border-color:rgba(109,66,245,0.28)}
+[data-pack="jannat-v2"] .avatar{background:linear-gradient(135deg,#6d42f5,#9d7cf8);color:white;font-weight:700}
+
+/* ─── HERO COLOURS ───────────────────────────────────── */
+[data-pack="jannat-v2"] .clock{color:#1a0f3c;text-shadow:none}
+[data-pack="jannat-v2"] .clock-ampm{background:#6d42f5;box-shadow:0 2px 10px rgba(109,66,245,0.35)}
+[data-pack="jannat-v2"] .greeting{color:#1a0f3c}
+[data-pack="jannat-v2"] .date-display{color:rgba(26,15,60,0.55)}
+[data-pack="jannat-v2"] .jd-hero-sub{color:rgba(26,15,60,0.35)}
+
+/* RIGHT COL — light frosted glass cards */
+[data-pack="jannat-v2"] .jd-w-card{
+  background:rgba(255,255,255,0.55);
+  border:1px solid rgba(109,66,245,0.16);
+  box-shadow:0 4px 24px rgba(109,66,245,0.08),inset 0 1px 0 rgba(255,255,255,0.90);
+}
+[data-pack="jannat-v2"] .jd-wc-temp{color:#1a0f3c;font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+[data-pack="jannat-v2"] .jd-wc-desc{font-size:11.5px;color:rgba(26,15,60,0.55)}
+[data-pack="jannat-v2"] .jd-wc-city{font-size:11px;color:rgba(26,15,60,0.40);display:flex;align-items:center;gap:4px;margin-top:2px}
+[data-pack="jannat-v2"] .jd-q-card{
+  background:rgba(255,255,255,0.55);
+  border:1px solid rgba(109,66,245,0.16);
+  box-shadow:0 4px 24px rgba(109,66,245,0.08),inset 0 1px 0 rgba(255,255,255,0.90);
+}
+[data-pack="jannat-v2"] .jd-qc-mark{color:#6d42f5}
+[data-pack="jannat-v2"] .jd-qc-text{color:rgba(26,15,60,0.80)}
+[data-pack="jannat-v2"] .jd-qc-author{color:rgba(26,15,60,0.42)}
+
+/* ─── SEARCH ROW — light glass ───────────────────────── */
+[data-pack="jannat-v2"] .jd-cs-inner{
+  background:rgba(255,255,255,0.58);
+  border:1px solid rgba(109,66,245,0.20);
+  box-shadow:0 4px 28px rgba(109,66,245,0.08),inset 0 1px 0 rgba(255,255,255,0.90);
+}
+[data-pack="jannat-v2"] .jd-cs-inner:focus-within{
+  border-color:rgba(109,66,245,0.45);
+  box-shadow:0 4px 28px rgba(109,66,245,0.08),0 0 0 3px rgba(109,66,245,0.10);
+}
+[data-pack="jannat-v2"] .jd-cs-spark{color:#6d42f5}
+[data-pack="jannat-v2"] .jd-cs-input{color:#1a0f3c!important}
+[data-pack="jannat-v2"] .jd-cs-input::placeholder{color:rgba(90,64,160,0.45)!important}
+[data-pack="jannat-v2"] .jd-cs-btn{background:linear-gradient(135deg,#6d42f5,#9d7cf8);box-shadow:0 2px 10px rgba(109,66,245,0.38)}
+[data-pack="jannat-v2"] .jd-chip{background:rgba(255,255,255,0.55);border:1px solid rgba(109,66,245,0.18);color:rgba(26,15,60,0.70)}
+[data-pack="jannat-v2"] .jd-chip:hover{background:rgba(255,255,255,0.88);border-color:rgba(109,66,245,0.32);color:#1a0f3c;transform:translateY(-1px)}
+[data-pack="jannat-v2"] .jd-chip-add{background:transparent;border-style:dashed;color:var(--text-muted)}
+[data-pack="jannat-v2"] .jd-chip-add:hover{background:rgba(109,66,245,0.08);color:#6d42f5}
+
+/* Quick Actions — light glass */
+[data-pack="jannat-v2"] .jd-quick-actions{
+  background:rgba(255,255,255,0.58);
+  border:1px solid rgba(109,66,245,0.16);
+  box-shadow:0 4px 24px rgba(109,66,245,0.08),inset 0 1px 0 rgba(255,255,255,0.90);
+}
+[data-pack="jannat-v2"] .jd-qa-hdr{color:#1a0f3c}
+[data-pack="jannat-v2"] .jd-qa-edit{color:var(--text-muted);background:rgba(109,66,245,0.08);border:1px solid rgba(109,66,245,0.14)}
+[data-pack="jannat-v2"] .jd-qa-edit:hover{color:#6d42f5;background:rgba(109,66,245,0.14)}
+[data-pack="jannat-v2"] .jd-qa-btn{background:rgba(255,255,255,0.50);border:1px solid rgba(109,66,245,0.14);color:var(--text-secondary)}
+[data-pack="jannat-v2"] .jd-qa-btn:hover{background:rgba(255,255,255,0.85);border-color:rgba(109,66,245,0.28);color:#1a0f3c;transform:translateY(-2px);box-shadow:0 6px 16px rgba(109,66,245,0.10)}
+
+/* ─── FOLDER CARDS — icon style (not full-bleed) ─────── */
+[data-pack="jannat-v2"] .folder-card{
+  padding:16px!important;
+  background:rgba(255,255,255,0.58)!important;
+  border:1px solid rgba(109,66,245,0.14)!important;
+  box-shadow:0 2px 20px rgba(109,66,245,0.08)!important;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+[data-pack="jannat-v2"] .folder-card:hover{
+  transform:translateY(-3px) scale(1.01)!important;
+  border-color:rgba(109,66,245,0.28)!important;
+  box-shadow:0 8px 32px rgba(109,66,245,0.14)!important;
+  background:rgba(255,255,255,0.80)!important;
+}
+/* Icon style: compact coloured square, not full-bleed */
+[data-pack="jannat-v2"] .folder-card-icon{
+  width:52px!important;height:52px!important;
+  border-radius:14px!important;
+  font-size:26px!important;
+  flex-shrink:0;
+  margin-bottom:12px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  box-shadow:0 3px 10px rgba(0,0,0,0.12)!important;
+  position:relative;
+}
+[data-pack="jannat-v2"] .folder-card-icon::after{display:none!important}
+
+/* Per-position icon colours */
+[data-pack="jannat-v2"] .folder-card:nth-child(1) .folder-card-icon{background:linear-gradient(135deg,#7c5af7,#9d7cf8)!important}
+[data-pack="jannat-v2"] .folder-card:nth-child(2) .folder-card-icon{background:linear-gradient(135deg,#2563eb,#60a5fa)!important}
+[data-pack="jannat-v2"] .folder-card:nth-child(3) .folder-card-icon{background:linear-gradient(135deg,#059669,#34d399)!important}
+[data-pack="jannat-v2"] .folder-card:nth-child(4) .folder-card-icon{background:linear-gradient(135deg,#d97706,#fbbf24)!important}
+[data-pack="jannat-v2"] .folder-card:nth-child(5) .folder-card-icon{background:linear-gradient(135deg,#0d9488,#2dd4bf)!important}
+[data-pack="jannat-v2"] .folder-card:nth-child(n+6) .folder-card-icon{background:linear-gradient(135deg,#db2777,#f472b6)!important}
+
+[data-pack="jannat-v2"] .folder-card-text{padding:0 0 6px!important}
+[data-pack="jannat-v2"] .folder-card-name{color:#1a0f3c}
+[data-pack="jannat-v2"] .folder-card-count{color:var(--text-muted)}
+[data-pack="jannat-v2"] .folder-favicons{padding:6px 0 0!important}
+[data-pack="jannat-v2"] .folder-card-menu-btn{
+  background:rgba(109,66,245,0.08);
+  border:1px solid rgba(109,66,245,0.14);
+  color:var(--text-secondary);
+  top:14px;right:14px;
+}
+[data-pack="jannat-v2"] .section-content-header{color:#1a0f3c}
+
+/* ─── RECENTLY USED — light glass ────────────────────── */
+[data-pack="jannat-v2"] .jd-ru-hdr{color:var(--text-secondary)}
+[data-pack="jannat-v2"] .jd-ru-clear{color:var(--text-muted)}
+[data-pack="jannat-v2"] .jd-ru-item{
+  background:rgba(255,255,255,0.58);
+  border:1px solid rgba(109,66,245,0.14);
+  color:#1a0f3c;
+}
+[data-pack="jannat-v2"] .jd-ru-item:hover{background:rgba(255,255,255,0.88);border-color:rgba(109,66,245,0.28);transform:translateY(-2px)}
+[data-pack="jannat-v2"] .jd-ru-icon{background:rgba(109,66,245,0.10)}
+[data-pack="jannat-v2"] .jd-ru-name{color:#1a0f3c}
+[data-pack="jannat-v2"] .jd-ru-meta{color:var(--text-muted)}
+
+/* ─── WIDGETS (glass cards in other views) ───────────── */
+[data-pack="jannat-v2"] .widget{
+  background:rgba(255,255,255,0.55);
+  border:1px solid rgba(109,66,245,0.14);
+  border-radius:16px;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 4px 24px rgba(109,66,245,0.08),inset 0 1px 0 rgba(255,255,255,0.80);
+}
+[data-pack="jannat-v2"] .widget:hover{border-color:rgba(109,66,245,0.24);background:rgba(255,255,255,0.75)}
+[data-pack="jannat-v2"] .qa-item{
+  background:rgba(255,255,255,0.50);
+  border:1px solid rgba(109,66,245,0.12);
+  border-radius:14px;
+  backdrop-filter:blur(16px);
+}
+[data-pack="jannat-v2"] .qa-item:hover{background:rgba(255,255,255,0.85);border-color:rgba(109,66,245,0.28);transform:translateY(-3px) scale(1.06);box-shadow:0 8px 20px rgba(109,66,245,0.12)}
+
+/* ─── BUTTONS / CONTROLS / MODALS ────────────────────── */
+[data-pack="jannat-v2"] .btn-primary{background:linear-gradient(135deg,#6d42f5,#9d7cf8);color:white;font-weight:700;border:none;box-shadow:0 4px 16px rgba(109,66,245,0.32)}
+[data-pack="jannat-v2"] .btn-primary:hover{box-shadow:0 6px 24px rgba(109,66,245,0.48);transform:translateY(-1px)}
+[data-pack="jannat-v2"] .btn-secondary{background:rgba(109,66,245,0.08);border:1px solid rgba(109,66,245,0.18);color:#6d42f5}
+[data-pack="jannat-v2"] .toggle-group{background:rgba(255,255,255,0.50);border:1px solid rgba(109,66,245,0.14)}
+[data-pack="jannat-v2"] .toggle-opt.active{background:rgba(109,66,245,0.18);color:#6d42f5}
+[data-pack="jannat-v2"] .switch input:checked+.slider{background:linear-gradient(135deg,#6d42f5,#9d7cf8);box-shadow:0 0 12px rgba(109,66,245,0.38)}
+[data-pack="jannat-v2"] .modal-overlay{background:rgba(20,10,50,0.45);backdrop-filter:blur(8px)}
+[data-pack="jannat-v2"] .modal{background:rgba(255,255,255,0.90);border:1px solid rgba(109,66,245,0.16);box-shadow:0 8px 60px rgba(109,66,245,0.14);backdrop-filter:blur(24px)}
+[data-pack="jannat-v2"] .settings-panel{
+  background:rgba(232,228,255,0.88);
+  border-left:1px solid rgba(109,66,245,0.14);
+  box-shadow:-8px 0 40px rgba(109,66,245,0.10);
+  backdrop-filter:blur(20px);
+}
+[data-pack="jannat-v2"] .settings-section-title{color:#6d42f5;font-weight:700;letter-spacing:0.07em;font-size:10.5px}
+[data-pack="jannat-v2"] #cmdPaletteOverlay{background:rgba(20,10,50,0.45);backdrop-filter:blur(8px)}
+[data-pack="jannat-v2"] #cmdPalette{
+  background:rgba(255,255,255,0.88);
+  border:1px solid rgba(109,66,245,0.18);
+  box-shadow:0 8px 60px rgba(109,66,245,0.16);
+  backdrop-filter:blur(24px);
+}
+[data-pack="jannat-v2"] .cmd-input{caret-color:#6d42f5;color:#1a0f3c!important;font-family:'Plus Jakarta Sans',sans-serif!important}
+[data-pack="jannat-v2"] .cmd-input::placeholder{color:rgba(90,64,160,0.45)!important}
+[data-pack="jannat-v2"] .cmd-search-icon{color:#6d42f5}
+[data-pack="jannat-v2"] ::-webkit-scrollbar-thumb{background:rgba(109,66,245,0.20)}
+[data-pack="jannat-v2"] ::-webkit-scrollbar-thumb:hover{background:rgba(109,66,245,0.38)}
+[data-pack="jannat-v2"] .tag-chip{background:rgba(109,66,245,0.08);color:#6d42f5;border:1px solid rgba(109,66,245,0.18)}
+[data-pack="jannat-v2"] .pack-card.active{border-color:#6d42f5;background:rgba(109,66,245,0.10);color:#6d42f5;box-shadow:0 0 0 2px rgba(109,66,245,0.14)}
+[data-pack="jannat-v2"] .greet-text{background:linear-gradient(120deg,#1a0f3c 0%,#6d42f5 50%,#9d7cf8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:none}

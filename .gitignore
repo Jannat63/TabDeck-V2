@@ -1,0 +1,12 @@
+# dependencies and tooling
+node_modules/
+dev/node_modules/
+# editor / assistant settings that should stay on your own machine
+.vscode/
+.claude/
+*.local.json
+# OS files
+.DS_Store
+Thumbs.db
+# build output
+*.zip

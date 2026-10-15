@@ -1,0 +1,98 @@
+/* =====================================================================
+   TabDeck polish layer.
+   Loaded after the base styles and after every theme, and it only uses
+   variables every theme defines, so it looks right in all of them.
+   ===================================================================== */
+
+/* ---------- Keyboard focus: always visible ---------- */
+:focus-visible { outline: 2px solid var(--accent) !important; outline-offset: 2px; }
+:where(input, textarea, select):focus-visible { outline: none !important; border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-subtle, rgba(124,58,237,.15)); }
+
+/* ---------- Respect "reduce motion" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- Type & small details ---------- */
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.clock, #timerDisplay, .tasks-progress-chip, .note-word-count, .sidebar-folder-count, .bm-folder-count { font-variant-numeric: tabular-nums; }
+h1, h2, h3, .empty-state-text, .welcome-lead { text-wrap: balance; }
+::selection { background: rgba(var(--accent-rgb, 124,58,237), .35); }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text-muted) 45%, transparent) transparent; }
+.cmd-section-label { color: var(--text-muted); }
+:where(button, [role="button"], .toggle-opt, .btn-primary, .btn-secondary):not(:disabled) { cursor: pointer; }
+:where(button):disabled, .toggle-opt:disabled, .is-locked { opacity: .45; cursor: not-allowed; }
+.btn-primary:active:not(:disabled), .btn-secondary:active:not(:disabled) { transform: translateY(1px); }
+
+/* ---------- Toast (now with an optional action such as Undo) ---------- */
+.toast { display: flex; align-items: center; gap: 10px; max-width: min(92vw, 520px); }
+.toast.show { pointer-events: auto; }
+.toast-icon { font-weight: 700; }
+.toast.success .toast-icon { color: var(--green, #22c55e); }
+.toast.error .toast-icon { color: var(--red, #ef4444); }
+.toast-action { margin: -2px -8px -2px 4px; padding: 5px 11px; border-radius: 7px; font-size: 12.5px; font-weight: 700; color: var(--accent-light); background: var(--accent-subtle, rgba(124,58,237,.12)); border: 1px solid transparent; transition: background .15s, border-color .15s; }
+.toast-action:hover { background: var(--accent-bg, rgba(124,58,237,.2)); border-color: var(--accent); }
+
+/* ---------- Segmented control (Bookmarks page) ---------- */
+.seg-control { display: inline-flex; gap: 2px; padding: 3px; margin: 14px 20px 0; border: 1px solid var(--border); border-radius: 11px; background: var(--bg-input); }
+.seg-control button { padding: 6px 15px; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: var(--text-muted); transition: background .15s, color .15s; }
+.seg-control button:hover { color: var(--text-primary); }
+.seg-control button.active { background: var(--accent-bg); color: var(--accent-light); }
+
+/* ---------- Empty states ---------- */
+.widget-empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 8px; min-height: 100px; color: var(--text-muted); font-size: 12.5px; text-align: center; flex: 1; }
+.widget-empty-state svg { opacity: .5; }
+.widget-empty-cta { margin-top: 2px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-secondary); font-size: 12px; font-weight: 600; transition: border-color .15s, color .15s, background .15s; }
+.widget-empty-cta:hover { border-color: var(--accent); color: var(--accent-light); background: var(--accent-subtle); }
+.widget-more { display: block; width: 100%; margin-top: 6px; padding: 6px; font-size: 11.5px; font-weight: 600; text-align: center; color: var(--accent-light); border-radius: 7px; }
+.widget-more:hover { background: var(--accent-subtle); }
+.empty-state-sub { max-width: 34ch; font-size: 12.5px; line-height: 1.5; opacity: .85; }
+.empty-state-cta { margin-top: 14px; }
+
+/* ---------- Tasks ---------- */
+.task-quick-input { width: 100%; margin: 0 0 8px; padding: 8px 11px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-primary); font: inherit; font-size: 12.5px; }
+.task-quick-input::placeholder { color: var(--text-muted); }
+.task-edit-input { flex: 1; min-width: 0; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--accent); background: var(--bg-card); color: var(--text-primary); font: inherit; font-size: 12.5px; }
+.task-checkbox { cursor: pointer; }
+.task-item.done .task-text { text-decoration: line-through; opacity: .6; }
+.task-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+/* ---------- Notes editor ---------- */
+.note-save-state { flex: 1; font-size: 11.5px; color: var(--text-muted); }
+.note-item .note-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.note-item .note-pin { margin-left: 8px; font-size: 11px; }
+
+/* ---------- Trash ---------- */
+.trash-item { gap: 12px; }
+.trash-item-icon { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
+.trash-item-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.trash-item-name { flex: none; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trash-item-meta { font-size: 11.5px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trash-del-btn { width: 28px; height: 28px; flex-shrink: 0; border-radius: 7px; color: var(--text-muted); font-size: 12px; transition: background .15s, color .15s; }
+.trash-del-btn:hover { color: var(--red, #ef4444); background: rgba(239,68,68,.12); }
+#trashList { display: flex; flex-direction: column; gap: 8px; }
+
+/* ---------- Command palette ---------- */
+.cmd-hint { padding: 10px 20px 14px; font-size: 11.5px; color: var(--text-muted); text-align: center; }
+
+/* ---------- Settings ---------- */
+.settings-note { margin: 6px 0 2px; font-size: 11.5px; line-height: 1.55; color: var(--text-muted); }
+.settings-note strong { color: var(--text-secondary); font-weight: 600; }
+
+/* ---------- Welcome + shortcuts dialogs ---------- */
+.welcome-lead { margin: 0 0 16px; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+.welcome-check { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: 13px; line-height: 1.45; color: var(--text-secondary); cursor: pointer; }
+.welcome-check input { margin-top: 2px; accent-color: var(--accent); }
+.shortcut-list { margin: 0; display: grid; gap: 12px; }
+.shortcut-list > div { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.shortcut-list dt { white-space: nowrap; font-size: 13px; color: var(--text-primary); }
+.shortcut-list dd { margin: 0; font-size: 12.5px; color: var(--text-muted); text-align: right; }
+kbd { display: inline-block; min-width: 20px; padding: 3px 6px; font: 600 11.5px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-align: center; color: var(--text-secondary); background: var(--bg-input); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px; }
+
+.modal-body .welcome-check { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 13px; color: var(--text-secondary); }
+
+/* Controls that only show on hover must also show for keyboard users */
+.qa-item:focus-within .qa-menu-btn,
+.bm-card:focus-within .bm-card-menu,
+.bm-item-row:focus-within .bm-action-btn,
+.ws-bm-folder-card:focus-within .ws-folder-menu-btn { display: flex; opacity: 1; }

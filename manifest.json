@@ -1,39 +1,40 @@
 {
   "manifest_version": 3,
   "name": "TabDeck",
-  "version": "2.0.0",
-  "description": "A beautiful productivity new tab page by Shihab Hossain & Ahsan Jannat",
+  "version": "2.2.0",
+  "minimum_chrome_version": "104",
+  "description": "A beautiful, private new tab page: workspaces, bookmarks, notes, tasks and a focus timer. By Shihab Hossain & Ahsan Jannat.",
   "chrome_url_overrides": { "newtab": "newtab.html" },
   "action": {
     "default_popup": "popup.html",
+    "default_title": "Save this page to TabDeck",
     "default_icon": {
       "16":  "assets/favicon.png",
       "48":  "assets/favicon.png",
       "128": "assets/favicon.png"
     }
   },
+  "background": { "service_worker": "background.js" },
   "icons": {
     "16":  "assets/favicon.png",
     "48":  "assets/favicon.png",
     "128": "assets/favicon.png"
   },
   "permissions": [
-    "tabs",
+    "storage",
     "bookmarks",
     "history",
     "downloads",
-    "storage",
     "topSites",
-    "identity",
-    "identity.email",
+    "favicon",
+    "activeTab",
+    "alarms",
+    "notifications"
+  ],
+  "optional_permissions": [
     "geolocation"
   ],
   "host_permissions": [
-    "https://wttr.in/*",
-    "https://fonts.googleapis.com/*",
-    "https://fonts.gstatic.com/*",
-    "https://www.googleapis.com/*",
-    "https://motivational-spark-api.vercel.app/*",
-    "https://ipapi.co/*"
+    "https://wttr.in/*"
   ]
 }

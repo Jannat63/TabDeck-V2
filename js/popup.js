@@ -1,325 +1,129 @@
 'use strict';
+// Toolbar popup: saves the current page to a workspace (as a Quick Access tile or into a folder).
+const $ = id => document.getElementById(id);
+const QA_MAX = 8;
+const MEMORY_KEY = '__td_popup';
+const UNSAVABLE = /^(chrome|chrome-extension|chrome-search|chrome-untrusted|edge|about|view-source|devtools):/i;
+// The new-tab page and this popup both write to the same storage, so take turns (same lock the new-tab page uses).
+const withLock = fn => (navigator.locks && navigator.locks.request) ? navigator.locks.request('tabdeck-storage', fn) : fn();
+const getLocal = keys => new Promise(res => chrome.storage.local.get(keys, v => res(v || {})));
+const setLocal = obj => new Promise(res => chrome.storage.local.set(obj, () => res(!chrome.runtime.lastError)));
+const uid = (p = '') => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
-function init() {
-  const el = id => document.getElementById(id);
-  const CHECK_SVG = `<svg class="combo-item-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>`;
+let tab = null, workspaces = [], wsData = {}, dest = 'quick', toastTimer = null;
 
-  let currentUrl = '';
-  let currentTitle = '';
-  let workspaces = [];
-  let wsData = {};
-  let destMode = 'quick';
-  let creatingNewFolder = false;
-  let selectedWsId = null;
-  let selectedFolder = null;
+function toast(msg, type = '') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function notice(msg, warn) {
+  const n = $('notice');
+  n.hidden = !msg;
+  n.textContent = msg || '';
+  n.classList.toggle('warn', !!warn);
+}
+const recall = () => { try { return JSON.parse(localStorage.getItem(MEMORY_KEY)) || {}; } catch { return {}; } };
+const remember = () => { try { localStorage.setItem(MEMORY_KEY, JSON.stringify({ wsId: Number($('wsSelect').value), dest, folderId: $('folderSelect').value })); } catch {} };
+const currentData = () => wsData[Number($('wsSelect').value)] || { quickAccess: [], importedBookmarks: [], folders: [] };
+const option = (value, text) => { const o = document.createElement('option'); o.value = value; o.textContent = text; return o; };
 
-  // ── Combobox factory ──────────────────────────────────────────────────────
-  function makeCombo({ triggerId, valId, dropId, listId, placeholder, onSelect }) {
-    const trigger = el(triggerId);
-    const valEl   = el(valId);
-    const drop    = el(dropId);
-    const list    = el(listId);
-    let selected  = null;
-
-    if (!trigger || !valEl || !drop || !list) {
-      return { setItems() {}, getValue() { return null; }, reset() {}, close() {} };
-    }
-
-    const open   = () => { trigger.classList.add('open');    drop.classList.add('open'); };
-    const close  = () => { trigger.classList.remove('open'); drop.classList.remove('open'); };
-    const isOpen = () => drop.classList.contains('open');
-
-    trigger.addEventListener('click', e => { e.stopPropagation(); isOpen() ? close() : open(); });
-    document.addEventListener('click', e => {
-      if (!trigger.contains(e.target) && !drop.contains(e.target)) close();
-    });
-
-    function setItems(items) {
-      list.innerHTML = '';
-      if (!items.length) {
-        list.innerHTML = '<div class="combo-empty">No options</div>';
-        return;
-      }
-      items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'combo-item' + (selected === item.value ? ' selected' : '');
-        div.innerHTML = `
-          ${item.emoji ? `<span class="combo-item-emoji">${item.emoji}</span>` : ''}
-          <span class="combo-item-label">${item.label}</span>
-          ${CHECK_SVG}
-        `;
-        div.addEventListener('click', () => {
-          selected = item.value;
-          valEl.textContent = (item.emoji ? item.emoji + ' ' : '') + item.label;
-          valEl.classList.remove('placeholder');
-          list.querySelectorAll('.combo-item').forEach(d => d.classList.remove('selected'));
-          div.classList.add('selected');
-          close();
-          onSelect(item.value, item);
-        });
-        list.appendChild(div);
-      });
-    }
-
-    const getValue = () => selected;
-
-    function reset() {
-      selected = null;
-      valEl.textContent = placeholder;
-      valEl.classList.add('placeholder');
-      list.innerHTML = '';
-    }
-
-    return { setItems, getValue, reset, close };
-  }
-
-  // ── Init combos ───────────────────────────────────────────────────────────
-  const wsCombo = makeCombo({
-    triggerId: 'wsTrigger', valId: 'wsVal', dropId: 'wsDrop', listId: 'wsList',
-    placeholder: 'Select workspace…',
-    onSelect: wsId => {
-      selectedWsId = +wsId;
-      folderCombo.reset();
-      selectedFolder = null;
-      populateFolders(+wsId);
-    }
+function fillFolders(preferred) {
+  const d = currentData(), sel = $('folderSelect');
+  const folders = d.folders || [];
+  sel.replaceChildren();
+  folders.filter(f => f.parentId == null).forEach(f => {
+    sel.appendChild(option(f.id, f.name));
+    folders.filter(c => c.parentId === f.id).forEach(c => sel.appendChild(option(c.id, '   ↳ ' + c.name)));
   });
-
-  const folderCombo = makeCombo({
-    triggerId: 'folderTrigger', valId: 'folderVal', dropId: 'folderDrop', listId: 'folderList',
-    placeholder: 'Select folder…',
-    onSelect: name => { selectedFolder = name; }
-  });
-
-  // ── Toast ─────────────────────────────────────────────────────────────────
-  function showToast(msg, type) {
-    const t = el('toast');
-    if (!t) return;
-    t.textContent = msg;
-    t.className   = 'toast ' + type + ' show';
-  }
-
-  // ── Populate folder combobox ──────────────────────────────────────────────
-  // Builds a flat indented list: top-level folders followed by their children.
-  // Each item's value is the folder id (or legacy name if no id) and label is breadcrumb-indented.
-  function populateFolders(wsId) {
-    const data    = wsData[wsId] || {};
-    const folders = Array.isArray(data.folders) ? data.folders : [];
-    // Index by id + by parent
-    const byParent = new Map();
-    folders.forEach(f => {
-      const pid = f.parentId == null ? null : f.parentId;
-      if (!byParent.has(pid)) byParent.set(pid, []);
-      byParent.get(pid).push(f);
-    });
-    // Add bookmark-derived folder names that aren't yet in folders list (legacy unmigrated)
-    const knownNames = new Set(folders.filter(f => f.parentId == null).map(f => f.name));
-    (data.importedBookmarks || []).forEach(b => {
-      if (b.folderName && !knownNames.has(b.folderName) && !folders.some(f => f.id === b.folderId)) {
-        knownNames.add(b.folderName);
-        const ghost = { _legacy: true, name: b.folderName, parentId: null };
-        if (!byParent.has(null)) byParent.set(null, []);
-        byParent.get(null).push(ghost);
-      }
-    });
-
-    const items = [];
-    const tops = byParent.get(null) || [];
-    tops.forEach(top => {
-      items.push({
-        value: top.id || ('name:' + top.name),
-        label: top.name,
-        emoji: '📁',
-      });
-      const subs = top.id ? (byParent.get(top.id) || []) : [];
-      subs.forEach(sub => {
-        items.push({
-          value: sub.id || ('name:' + sub.name),
-          label: '↳ ' + sub.name,
-          emoji: '📁',
-        });
-      });
-    });
-    folderCombo.setItems(items);
-  }
-
-  // ── Load tab + storage ────────────────────────────────────────────────────
-  Promise.all([
-    new Promise(res => chrome.tabs.query({ active: true, currentWindow: true }, res)),
-    new Promise(res => chrome.storage.local.get(['workspaces', 'wsData'], res)),
-  ]).then(([[tab], stored]) => {
-    const mainForm   = el('mainForm');
-    const pageTitle  = el('pageTitle');
-    const pageUrl    = el('pageUrl');
-    const titleInput = el('titleInput');
-    const pageFav    = el('pageFavicon');
-    const saveBtn    = el('saveBtn');
-
-    // Guard: if popup closed before promise resolved
-    if (!mainForm) return;
-
-    if (tab) {
-      currentUrl   = tab.url || '';
-      currentTitle = tab.title || currentUrl;
-      if (pageTitle)  pageTitle.textContent = currentTitle;
-      if (pageUrl)    pageUrl.textContent   = currentUrl;
-      if (titleInput) titleInput.value      = currentTitle;
-
-      if (tab.favIconUrl && pageFav) {
-        const img = document.createElement('img');
-        img.src = tab.favIconUrl;
-        img.onerror = () => img.remove();
-        pageFav.innerHTML = '';
-        pageFav.appendChild(img);
-      }
-
-      if (currentUrl.startsWith('chrome://') || currentUrl.startsWith('chrome-extension://')) {
-        showToast("This page can't be bookmarked.", 'err');
-        if (saveBtn) saveBtn.disabled = true;
-      }
-    }
-
-    workspaces = stored.workspaces || [];
-    wsData     = stored.wsData     || {};
-
-    if (!workspaces.length) {
-      mainForm.innerHTML = '<div class="empty">No workspaces found.<br>Open a new tab to set up TabDeck first.</div>';
-      return;
-    }
-
-    wsCombo.setItems(workspaces.map(ws => ({
-      value: String(ws.id),
-      label: ws.name,
-      emoji: ws.icon || '',
-    })));
-  }).catch(err => {
-    console.warn('TabDeck popup load error:', err);
-  });
-
-  // ── Destination toggle ────────────────────────────────────────────────────
-  const destQuick  = el('destQuick');
-  const destFolder = el('destFolder');
-  const folderRow  = el('folderRow');
-  const newFolderRow = el('newFolderRow');
-  const newFolderBtn = el('newFolderBtn');
-
-  if (destQuick) destQuick.addEventListener('click', () => {
-    destMode = 'quick';
-    destQuick.classList.add('active');
-    if (destFolder)    destFolder.classList.remove('active');
-    if (folderRow)     folderRow.style.display = 'none';
-    if (newFolderRow)  newFolderRow.style.display = 'none';
-    creatingNewFolder = false;
-    if (newFolderBtn) { newFolderBtn.textContent = '+'; newFolderBtn.classList.remove('active'); }
-  });
-
-  if (destFolder) destFolder.addEventListener('click', () => {
-    destMode = 'folder';
-    destFolder.classList.add('active');
-    if (destQuick)  destQuick.classList.remove('active');
-    if (folderRow)  folderRow.style.display = 'flex';
-  });
-
-  // ── New folder toggle ─────────────────────────────────────────────────────
-  if (newFolderBtn) newFolderBtn.addEventListener('click', () => {
-    creatingNewFolder = !creatingNewFolder;
-    if (newFolderRow)  newFolderRow.style.display = creatingNewFolder ? 'block' : 'none';
-    newFolderBtn.textContent = creatingNewFolder ? '×' : '+';
-    newFolderBtn.classList.toggle('active', creatingNewFolder);
-    const inp = el('newFolderInput');
-    if (creatingNewFolder && inp) inp.focus();
-  });
-
-  // ── Save ──────────────────────────────────────────────────────────────────
-  const saveBtn = el('saveBtn');
-  if (saveBtn) saveBtn.addEventListener('click', async () => {
-    const titleInput = el('titleInput');
-    const title = (titleInput ? titleInput.value.trim() : '') || currentTitle;
-    const wsId  = selectedWsId;
-
-    if (!title || !currentUrl) { showToast('Missing title or URL.', 'err'); return; }
-    if (currentUrl.startsWith('chrome://') || currentUrl.startsWith('chrome-extension://')) {
-      showToast("This page can't be bookmarked.", 'err'); return;
-    }
-    if (!wsId) { showToast('Select a workspace.', 'err'); return; }
-
-    if (!wsData[wsId]) wsData[wsId] = { quickAccess:[], notes:[], tasks:[], folders:[], importedBookmarks:[] };
-    const data = wsData[wsId];
-
-    if (destMode === 'quick') {
-      if ((data.quickAccess || []).some(b => b.url === currentUrl)) {
-        showToast('Already in Quick Access.', 'err'); return;
-      }
-      if (!data.quickAccess) data.quickAccess = [];
-      data.quickAccess.push({ id: Date.now(), name: title, url: currentUrl });
-    } else {
-      let folderId = null;
-      let folderName = '';
-      if (!data.folders) data.folders = [];
-      if (creatingNewFolder) {
-        const inp = el('newFolderInput');
-        folderName = inp ? inp.value.trim() : '';
-        if (!folderName) { showToast('Enter a folder name.', 'err'); return; }
-        let existing = data.folders.find(f => f.parentId == null && (f.name || f) === folderName);
-        if (!existing) {
-          existing = {
-            id: 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-            name: folderName,
-            parentId: null,
-          };
-          data.folders.push(existing);
-        } else if (!existing.id) {
-          existing.id = 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-          existing.parentId = null;
-        }
-        folderId = existing.id;
-      } else {
-        const sel = selectedFolder;
-        if (!sel) { showToast('Select a folder.', 'err'); return; }
-        if (typeof sel === 'string' && sel.startsWith('name:')) {
-          // Legacy unmigrated folder — create a real entry now
-          folderName = sel.slice(5);
-          let existing = data.folders.find(f => f.parentId == null && (f.name || f) === folderName);
-          if (!existing) {
-            existing = {
-              id: 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-              name: folderName, parentId: null,
-            };
-            data.folders.push(existing);
-          } else if (!existing.id) {
-            existing.id = 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-            existing.parentId = null;
-          }
-          folderId = existing.id;
-        } else {
-          folderId = sel;
-          const f = data.folders.find(x => x.id === folderId);
-          if (!f) { showToast('Folder not found.', 'err'); return; }
-          folderName = f.name;
-        }
-      }
-      if ((data.importedBookmarks || []).some(b => b.url === currentUrl && b.folderId === folderId)) {
-        showToast('Already in that folder.', 'err'); return;
-      }
-      if (!data.importedBookmarks) data.importedBookmarks = [];
-      data.importedBookmarks.push({ id: 'p_' + Date.now(), title, url: currentUrl, folderId, folderName });
-    }
-
-    saveBtn.disabled = true;
-    try {
-      await new Promise((res, rej) => {
-        chrome.storage.local.set({ wsData }, () => {
-          chrome.runtime.lastError ? rej(chrome.runtime.lastError) : res();
-        });
-      });
-      showToast('Bookmark saved!', 'ok');
-      setTimeout(() => window.close(), 900);
-    } catch {
-      saveBtn.disabled = false;
-      showToast('Save failed. Try again.', 'err');
-    }
-  });
+  sel.appendChild(option('__new__', '+ New folder…'));
+  sel.value = folders.some(f => f.id === preferred) ? preferred : (folders[0] ? folders[0].id : '__new__');
+}
+// Shows the right fields for the chosen destination and warns about full tiles / duplicates.
+function refresh(preferredFolder) {
+  const d = currentData();
+  const quickFull = (d.quickAccess || []).length >= QA_MAX;
+  if (dest === 'quick' && quickFull) dest = 'folder';
+  $('destQuick').classList.toggle('active', dest === 'quick'); $('destQuick').setAttribute('aria-pressed', dest === 'quick');
+  $('destFolder').classList.toggle('active', dest === 'folder'); $('destFolder').setAttribute('aria-pressed', dest === 'folder');
+  $('destQuick').disabled = quickFull;
+  $('destQuick').title = quickFull ? `Quick Access is full (${QA_MAX} tiles)` : '';
+  fillFolders(preferredFolder ?? $('folderSelect').value);
+  $('folderRow').hidden = dest !== 'folder';
+  $('newFolderRow').hidden = !(dest === 'folder' && $('folderSelect').value === '__new__');
+  const dup = tab && ((d.quickAccess || []).some(q => q.url === tab.url) || (d.importedBookmarks || []).some(b => b.url === tab.url));
+  const ws = workspaces.find(w => w.id === Number($('wsSelect').value));
+  if (dup) notice(`Already saved in ${ws ? ws.name : 'this workspace'}.`, true);
+  else if (quickFull) notice(`Quick Access is full (${QA_MAX} tiles), so this will go into a folder.`);
+  else notice('');
+  $('saveBtn').disabled = !!dup;
+  $('saveLabel').textContent = dest === 'quick' ? 'Save to Quick Access' : 'Save to folder';
 }
 
-// Script runs after full HTML parse (defer attribute on script tag)
+async function init() {
+  const [tabs, stored] = await Promise.all([new Promise(r => chrome.tabs.query({ active: true, currentWindow: true }, r)), getLocal(['workspaces', 'wsData', 'activeWsId'])]);
+  tab = (tabs && tabs[0]) || null;
+  workspaces = (stored.workspaces || []).map(w => ({ ...w, id: Number(w.id) }));
+  wsData = stored.wsData || {};
+  const url = tab && tab.url ? tab.url : '';
+  $('pageTitle').textContent = (tab && tab.title) || url || 'No page';
+  $('pageUrl').textContent = url;
+  $('titleInput').value = (tab && tab.title) || '';
+  if (url && !UNSAVABLE.test(url)) $('pageFavicon').src = `${chrome.runtime.getURL('/_favicon/')}?pageUrl=${encodeURIComponent(url)}&size=32`;
+  if (!url || UNSAVABLE.test(url)) { $('saveBtn').disabled = true; $('mainForm').querySelectorAll('input,select,button').forEach(n => n.disabled = true); notice('Browser pages like this one can’t be saved. Open a regular website and try again.', true); return; }
+  if (!workspaces.length) { $('saveBtn').disabled = true; notice('Open a new tab once to finish setting up TabDeck, then try again.', true); return; }
+  workspaces.forEach(w => $('wsSelect').appendChild(option(w.id, `${w.icon || '📁'}  ${w.name}`)));
+  const mem = recall();
+  const pick = [mem.wsId, Number(stored.activeWsId)].find(id => workspaces.some(w => w.id === id));
+  $('wsSelect').value = pick !== undefined ? pick : workspaces[0].id;
+  dest = mem.dest === 'folder' ? 'folder' : 'quick';
+  refresh(mem.folderId);
+}
+
+async function save() {
+  if (!tab || !tab.url) return;
+  const title = ($('titleInput').value.trim() || tab.title || tab.url).slice(0, 300);
+  const wsId = Number($('wsSelect').value);
+  const folderValue = $('folderSelect').value, newName = $('newFolderInput').value.trim();
+  if (dest === 'folder' && folderValue === '__new__' && !newName) { toast('Name the new folder first.', 'error'); $('newFolderInput').focus(); return; }
+  $('saveBtn').disabled = true;
+  try {
+    const res = await withLock(async () => {
+      const latest = (await getLocal(['wsData'])).wsData || {};          // newest copy: add one item, write it back
+      const d = latest[wsId] || (latest[wsId] = { quickAccess: [], notes: [], tasks: [], importedBookmarks: [], folders: [] });
+      ['quickAccess', 'importedBookmarks', 'folders'].forEach(k => { if (!Array.isArray(d[k])) d[k] = []; });
+      if (d.quickAccess.some(q => q.url === tab.url) || d.importedBookmarks.some(b => b.url === tab.url)) return { dup: true };
+      let where;
+      if (dest === 'quick') {
+        if (d.quickAccess.length >= QA_MAX) return { full: true };
+        d.quickAccess.push({ id: Date.now(), name: title.slice(0, 80), url: tab.url });
+        where = 'Quick Access';
+      } else {
+        let folder = folderValue === '__new__' ? d.folders.find(f => f.parentId == null && f.name === newName) : d.folders.find(f => f.id === folderValue);
+        if (!folder) { folder = { id: 'f_' + uid(), name: newName || 'Saved', parentId: null }; d.folders.push(folder); }
+        d.importedBookmarks.push({ id: 'p_' + uid(), title, url: tab.url, folderId: folder.id, folderName: folder.name, date: Date.now() });
+        where = folder.name;
+      }
+      return (await setLocal({ wsData: latest })) ? { where, latest } : { failed: true };
+    });
+    if (res.dup) { toast('Already saved here.', 'error'); refresh(); return; }
+    if (res.full) { toast('Quick Access is full.', 'error'); wsData[wsId] = currentData(); refresh(); return; }
+    if (res.failed) { toast('Couldn’t save. Chrome storage may be full.', 'error'); $('saveBtn').disabled = false; return; }
+    remember();
+    const ws = workspaces.find(w => w.id === wsId);
+    toast(`Saved to ${res.where}${ws ? ' in ' + ws.name : ''}`, 'success');
+    setTimeout(() => window.close(), 900);
+  } catch (e) {
+    toast('Something went wrong.', 'error'); $('saveBtn').disabled = false;
+  }
+}
+
+$('pageFavicon').addEventListener('error', () => $('pageFavicon').parentElement.classList.add('nofav'));
+$('wsSelect').addEventListener('change', () => refresh());
+$('folderSelect').addEventListener('change', () => { $('newFolderRow').hidden = !($('folderSelect').value === '__new__'); if (!$('newFolderRow').hidden) $('newFolderInput').focus(); });
+$('destQuick').addEventListener('click', () => { dest = 'quick'; refresh(); });
+$('destFolder').addEventListener('click', () => { dest = 'folder'; refresh(); });
+$('mainForm').addEventListener('submit', e => { e.preventDefault(); save(); });
 init();

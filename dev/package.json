@@ -1,0 +1,7 @@
+{
+  "name": "tabdeck-dev",
+  "private": true,
+  "description": "Optional developer tooling for TabDeck. Not needed to use the extension.",
+  "scripts": { "test": "node tests/run.js" },
+  "devDependencies": { "jsdom": ">=26.0.0" }
+}

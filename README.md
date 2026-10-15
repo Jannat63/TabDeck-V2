@@ -1,347 +1,165 @@
 # ⚡ TabDeck
 
-<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/e55fe65b-7a6b-41f1-a3c8-3c949998a132" />
-
-**A beautiful, feature-packed new tab page for Chrome.**  
-Every time you open a new tab, TabDeck replaces the default blank page with your own personal productivity dashboard — bookmarks, notes, tasks, weather, wallpapers, and more, all in one place.
+**A beautiful, private new tab page for Chrome.**
+Every time you open a new tab, TabDeck shows your own dashboard: workspaces, bookmarks, quick links, notes, tasks, a focus timer and the weather.
 
 > Built with ❤️ by [Shihab Hossain](https://www.linkedin.com/in/sheikh-shihab-hossain/) & [Ahsan Jannat](https://www.linkedin.com/in/ahsan-jannat/)
 
----
-
-## 📋 Table of Contents
-
-- [What is TabDeck?](#what-is-tabdeck)
-- [Features](#features)
-- [Themes](#themes)
-- [Installation Guide](#installation-guide)
-- [How to Use](#how-to-use)
-  - [Workspaces](#workspaces)
-  - [Quick Access](#quick-access)
-  - [Bookmarks & Folders](#bookmarks--folders)
-  - [Notes](#notes)
-  - [Tasks](#tasks)
-  - [Save from Any Page (Popup)](#save-from-any-page-popup)
-  - [Background Wallpaper](#background-wallpaper)
-  - [Analytics](#analytics)
-  - [Settings & Appearance](#settings--appearance)
-- [Keyboard Shortcuts](#keyboard-shortcuts)
-- [Frequently Asked Questions](#frequently-asked-questions)
-- [Open Source](#open-source)
-- [Credits](#credits)
+Version **2.2.0** · Chrome 104 or newer · MIT licence
 
 ---
 
-## What is TabDeck?
+## What's inside
 
-TabDeck turns your browser's new tab page into a personal command center. Instead of a blank page or a generic search box, you get:
-
-- Your most-visited links one click away
-- Notes and to-do lists always visible
-- Your Chrome bookmarks organized by workspace
-- A live clock, weather widget, and daily motivational quote
-- A rotating wallpaper slideshow with smooth crossfade transitions
-- 10 hand-crafted themes — from minimal to glossy to sci-fi
-- History, downloads, and trash management — all without leaving the tab
-
-Everything is saved locally in your browser. Nothing is sent to any server unless you choose to sign in with Google to sync across devices.
-
----
-
-## Features
-
-| Feature | Description |
+| | |
 |---|---|
-| 🗂 **Workspaces** | Separate spaces for Work, Personal, School, etc. Each has its own bookmarks, notes, and tasks |
-| ⭐ **Quick Access** | Pin your most-used sites as large icon tiles for one-click access |
-| 📁 **Folders** | Organize bookmarks into named folders inside each workspace |
-| 📝 **Notes** | Write and save notes with tag support. Pin important ones to the top |
-| ✅ **Tasks** | To-do list with completion tracking and a progress chip |
-| 🔖 **Popup Bookmarker** | Click the TabDeck icon in your toolbar to save any page to any workspace instantly |
-| 🖼 **Wallpaper Slideshow** | Rotating background images that switch every 5, 10, or 30 minutes with a smooth crossfade |
-| 📊 **Analytics** | Stats on bookmarks, notes, tasks, browsing history, downloads, and workspace activity |
-| 🌤 **Weather** | Live local weather shown automatically (or set your city manually) |
-| 🕐 **Clock** | Live clock with blinking colon, 12h/24h format toggle, and seconds option |
-| 💬 **Daily Quote** | A new motivational quote loaded every day |
-| ⏱ **Focus Timer** | Built-in Pomodoro-style countdown timer |
-| 🎨 **10 Themes** | 5 original + 5 new themes including two glossy glass styles |
-| 🔍 **Command Palette** | Press `/` to instantly search across all bookmarks, notes, and history |
-| 📥 **Downloads** | See your recent Chrome downloads without leaving the tab |
-| 🗑 **Trash** | Deleted items go to trash and can be recovered |
-| ↔ **Collapsible Sidebar** | Hide the sidebar for a distraction-free view |
-| 📦 **Compact View** | Switch to a denser tile layout for bookmarks |
-| ☁️ **Google Sync** | Sign in with Google to back up and sync your data across devices |
-| 📤 **Export / Import** | Download your full data as JSON and restore it any time |
-
----
+| **Workspaces** | Separate spaces (Home, Work, Study…) that each keep their own bookmarks, folders, notes, tasks and Quick Access links. |
+| **Bookmarks & folders** | Folders with one level of subfolders. Drag to reorder, drop a bookmark onto a folder, move a bookmark or whole folder to another workspace. |
+| **Quick Access** | Up to 8 big tiles per workspace for the sites you open all day. |
+| **Notes** | A note editor that saves itself, with tags, pinning and search. |
+| **Tasks** | Add a task and press Enter. Double-click to edit. Finished tasks drop to the bottom. |
+| **Focus timer** | 25, 15 or 5 minutes. The countdown shows in the tab title and keeps running if you switch tabs. You get a sound and a notification when it ends. |
+| **Search & commands** | Press `/` (or `Ctrl`/`⌘` + `K`) to search bookmarks, notes and history, or to run actions like "New note" or "Switch light / dark". |
+| **Trash with Undo** | Everything you delete (notes, tasks, links, bookmarks, folders, whole workspaces) goes to Trash for 30 days. Most deletes show an **Undo** button. |
+| **Save from any page** | Click the TabDeck icon in the toolbar to save the page you're on to a workspace. |
+| **History, Downloads, Analytics** | Handy views of your Chrome history, recent downloads and browsing habits. Analytics is calculated on your computer. |
+| **12 themes** | Each with a light or dark mode where it makes sense (see below), plus your own accent colour. |
+| **Backup** | Export everything as one file and import it later (Settings → Export All Data / Import Data). |
 
 ## Themes
 
-TabDeck ships with **10 hand-crafted themes**. Switch between them in Settings → Theme Pack.
+Pick one in **Settings → Theme pack**.
 
-| Theme | Style | Default Mode |
+| Theme | Look |
+|---|---|
+| Default | Dark glass, purple accent, soft |
+| Mono | Minimal, lots of whitespace, sage accent |
+| Brutal | Sharp, mustard and black, bold |
+| Atelier | Editorial, ivory and oxblood, serif |
+| Holodeck | Sci-fi HUD, cyan grid, scanlines |
+| Aurora | Northern lights, green glow, glass |
+| Ember | Warm dark, amber fire, cosy |
+| Sakura | Cherry blossom, soft pink |
+| Obsidian | Black glass, glossy sheen |
+| Aura | Iridescent violet, rose and sky |
+| Jannat Design | Space navy, purple pill, cover-art cards (dark only) |
+| Jannat Design V2 | Light lavender, glassmorphism (light only) |
+
+## Install
+
+TabDeck isn't on the Chrome Web Store, so you add it by hand. It takes a minute.
+
+1. Download this project and unzip it. You should end up with a folder that contains `manifest.json`.
+2. Open Chrome and go to `chrome://extensions`.
+3. Turn on **Developer mode** (top right).
+4. Click **Load unpacked** and choose the folder from step 1 (the one that has `manifest.json` directly inside it).
+5. Open a new tab. A short welcome asks your name and whether to start with example bookmarks.
+
+To pin the toolbar icon, click the puzzle-piece button in Chrome and pin **TabDeck**.
+
+> Updating: replace the files in the same folder, then click the ↻ button on the TabDeck card in `chrome://extensions`. Your data stays.
+
+## Using it
+
+**Workspaces.** Switch with the tabs under the clock or from the sidebar. **+ New** adds one; **Manage** renames, reorders or deletes them. A deleted workspace goes to Trash with everything in it.
+
+**Bookmarks.** On Home, each folder is a card. Click a card to open it. Use **⋯** on a card or bookmark to rename, move to another folder or workspace, or delete. The **Bookmarks** page has two tabs: *Workspace bookmarks* (the ones you keep in TabDeck) and *Chrome bookmarks* (your browser's own, which you can also edit). **Settings → Import Chrome Bookmarks** copies your Chrome bookmarks into a new workspace. Chrome's own bookmarks are edited in Chrome itself, so deleting one there asks first and can't be undone.
+
+**Quick Access.** Click **Add** (or the + tile). Use **⋯** on a tile to edit or remove it, or drag tiles to reorder them.
+
+**Notes.** Click **+** on the Notes card. Notes save as you type and again when you close the editor. **Delete** moves a note to Trash; **Discard** (on a brand-new note) throws it away.
+
+**Tasks.** Type in the box at the top of the Tasks card and press Enter. Click the circle to finish a task, double-click the text to edit it, and use the tick button to clear finished tasks.
+
+**Weather.** Click the weather card to type a city, or to use your device's location (Chrome asks for permission only when you do this). Temperature can be °C or °F in Settings.
+
+**Keyboard shortcuts.** `/` or `Ctrl`/`⌘` + `K` opens search. `↑` `↓` `Enter` choose a result. `Esc` closes things. `?` shows the list.
+
+## Your data and privacy
+
+- Everything you create (workspaces, bookmarks, notes, tasks, settings) is stored **only in Chrome on this computer**. There are no accounts, no sign-in and no sync.
+- TabDeck contains **no analytics or tracking**.
+- Backups are files **you** download and keep. Use **Settings → Export All Data** and **Import Data** to move to another computer.
+
+The only things that touch the internet:
+
+| What | Where it goes | When |
 |---|---|---|
-| **Default** | Dark glass, purple accent, soft rounded cards | Dark |
-| **Mono** | Minimal whitespace, sage green accent, clean typography | Light |
-| **Brutal** | Neo-brutalist, mustard & black, sharp borders | Dark |
-| **Atelier** | Editorial, ivory & oxblood, serif headings | Light |
-| **Holodeck** | Sci-fi HUD, cyan grid, scanline overlay | Dark |
-| **Aurora** 🆕 | Northern lights, aurora green glow, glassmorphism | Dark |
-| **Ember** 🆕 | Warm fireplace, amber & orange, cozy dark | Dark |
-| **Sakura** 🆕 | Japanese spring, cherry blossom pink, clean | Light |
-| **Obsidian** 🆕 | Premium black glass, specular gloss highlights, electric blue | Dark |
-| **Aura** 🆕 | Iridescent holographic shimmer, violet → rose → sky gradient | Dark |
+| Weather | `wttr.in`. By default it works out your rough location from your IP address. If you choose a city it sends the city name. If you choose "device location" it sends coordinates rounded to about 1 km. The answer is kept for 30 minutes. | When the weather card is on |
+| Site icons | **Sharper** (default): Google's icon service (`t3.gstatic.com`) is asked for each site's logo, so Google learns which sites you save. **Private**: only icons Chrome already has; nothing is sent. | When bookmarks and Quick Access links are shown. Change it in **Settings → Privacy → Site icons** |
+| Wallpaper photos | `picsum.photos` | Only if you turn on the wallpaper in Settings (off by default) |
 
-Every theme has both a **dark and light mode variant** and covers every element — sidebar, topbar, cards, modals, settings panel, and command palette.
+Fonts are bundled inside the extension, quotes are built in, and nothing else is requested.
 
----
+### Why TabDeck asks for these permissions
 
-## Installation Guide
-
-TabDeck is installed as a **Chrome Extension**. Follow these steps — no technical knowledge needed.
-
-### Step 1 — Download the files
-
-1. Download the TabDeck folder to your computer
-2. Unzip/extract it if it came as a `.zip` file
-3. Remember where you saved it (e.g. `Downloads\tabdeck-main`)
-
-### Step 2 — Open Chrome Extensions
-
-1. Open **Google Chrome**
-2. In the address bar, type:
-   ```
-   chrome://extensions
-   ```
-   and press **Enter**
-
-### Step 3 — Enable Developer Mode
-
-1. Find the **"Developer mode"** toggle in the **top-right corner**
-2. Click it to turn it **ON** (it turns blue)
-
-### Step 4 — Load TabDeck
-
-1. Click the **"Load unpacked"** button
-2. Navigate to the folder where you saved TabDeck (the one containing `manifest.json`)
-3. Select that folder and click **"Select Folder"**
-
-### Step 5 — Done!
-
-Open a new tab and you'll see your dashboard.
-
-> **Tip:** Click the puzzle piece icon (🧩) in Chrome's toolbar, find TabDeck, and click the pin icon 📌 to keep the icon visible.
-
----
-
-## How to Use
-
-### Workspaces
-
-Workspaces are like separate dashboards — one for Work, one for Personal, one for School, etc.
-
-- The workspace tabs appear along the **left side** of the screen
-- Click any workspace to switch to it
-- Click **"+ New"** at the bottom of the sidebar to create one
-- Each workspace has its own Quick Access, bookmarks, notes, and tasks
-- Right-click a workspace tab to rename, change its emoji, or delete it
-
----
-
-### Quick Access
-
-Quick Access shows large icon tiles at the top of your dashboard for your most-used sites.
-
-- Click any tile to navigate to that site
-- Click **"+ Add"** to add a new link
-- Hover over a tile and click **⋯** to edit or remove it
-- Drag tiles to reorder them (up to 8 tiles per workspace)
-
----
-
-### Bookmarks & Folders
-
-Below Quick Access, bookmarks are organized into folder cards.
-
-- Click a folder card to open it and see all links inside
-- Click **"+ Add Folder"** to create a new folder
-- Click **⋯** on a folder to rename, edit, import from Chrome, or delete it
-- The **Bookmarks** section in the sidebar shows your full Chrome bookmark library
-
----
-
-### Notes
-
-Click **Notes** in the sidebar or scroll to the Notes widget on the home page.
-
-- Click **"+ New Note"** to write a note
-- Add **#tags** anywhere in your text to organize notes (e.g. `#work`, `#ideas`)
-- Pin a note to keep it at the top
-- Notes are saved automatically when you close the editor
-- Deleted notes go to Trash and can be recovered
-
----
-
-### Tasks
-
-The Tasks widget shows your to-do list for the current workspace.
-
-- Type in the input at the top and press **Enter** to add a task
-- Click the circle next to a task to mark it done — the checkbox springs with a satisfying animation
-- When all tasks are complete, the progress chip turns green and pulses
-- Tasks are workspace-specific
-
----
-
-### Save from Any Page (Popup)
-
-When you're browsing and want to save a page:
-
-1. Click the **TabDeck icon** (⚡) in your Chrome toolbar
-2. The popup shows the current page title and URL (both editable)
-3. Choose which **Workspace** to save to
-4. Choose **Quick Access** or **Folder**
-5. Select an existing folder or click **+** to create a new one
-6. Click **Save Bookmark**
-
----
-
-### Background Wallpaper
-
-TabDeck can rotate beautiful background photos automatically behind your dashboard.
-
-**To enable:**
-1. Open **Settings** (bottom of sidebar)
-2. Scroll to **Background Wallpaper**
-3. Toggle **Enable Slideshow** on
-
-**Options:**
-
-| Setting | What it does |
+| Permission | Used for |
 |---|---|
-| **Switch Every** | Choose how often the image changes — 5 min, 10 min, or 30 min |
-| **Overlay Dim** | Control how dark the overlay is over the photo — Light, Medium, or Dark |
-| **↺ Next Photo** | Skip to the next image immediately without waiting |
+| `storage` | Keeping your data in Chrome |
+| `bookmarks` | The Chrome bookmarks tab, import, and search |
+| `history` | The History page, Analytics and search results |
+| `downloads` | The Downloads page |
+| `topSites` | Analytics (most visited sites) |
+| `favicon` | Showing site icons from Chrome's own cache |
+| `activeTab` | Reading the title and address of the page you save with the toolbar button |
+| `alarms`, `notifications` | The "focus session finished" notification when the new-tab page isn't showing |
+| `https://wttr.in/*` | The weather card |
+| *Optional:* `geolocation` | Only if you press "use my device's location" for weather. Chrome asks at that moment |
 
-Photos are loaded automatically from [Picsum Photos](https://picsum.photos) — a curated library of high-quality images. No account or API key needed.
+## Questions
 
-The wallpaper uses a **smooth 2.5-second crossfade** between images. Your sidebar keeps its solid background for readability, while cards over the main content get a frosted glass effect.
+**Where is my data?** In Chrome's local storage for this extension. Removing the extension removes the data, so download a backup first if you might need it.
 
-> Wallpaper works with all 10 themes. Dark wallpapers pair best with the default overlay dimming.
+**How do I get my data onto another computer?** Settings → Export All Data, then on the other computer Settings → Import Data. You'll be asked to confirm and can Undo straight after.
 
----
+**I deleted something by accident.** Click **Undo** on the message that appears, or open **Trash** and press **Restore**. Items stay for 30 days.
 
-### Analytics
+**Can I use my own wallpaper?** Not yet. You can turn on rotating photos in Settings.
 
-Click the **bar chart icon** (📊) in the top-right toolbar.
+**The toolbar button says a page can't be saved.** Chrome's own pages (`chrome://…`, the Web Store) can't be saved from the popup. Open a normal website.
 
-You'll see:
+**A theme looks wrong after an update.** Click ↻ on the extension in `chrome://extensions`, then open a fresh tab.
 
-- **Overview** — total bookmarks, notes, tasks, workspaces, and trash items
-- **Tasks summary** — completion rate across all workspaces
-- **Notes summary** — total notes and top tags
-- **Workspace breakdown** — item count per workspace
-- **Top Folders** — your largest bookmark folders
-- **Top Sites** — your most visited websites
-- **Downloads** — recent download activity
-- **Browsing Activity** — pages visited in the last 7 days
+## What changed in 2.2.0
 
----
+- **Safer saving.** Open tabs and the toolbar popup no longer overwrite each other's changes; they merge, and update live.
+- **Trash covers everything**, and most deletes have an Undo button. Deleted workspaces keep all their contents. Deleted example workspaces no longer come back.
+- **Notes can't be lost.** The editor saves while you type and when it closes.
+- **Moving bookmarks and folders between workspaces works** (they used to disappear).
+- **Import is checked.** It validates the file, asks before replacing anything, and has Undo.
+- **Search can run commands**, searches history, and opens notes from any workspace.
+- **Tasks:** quick-add box, all tasks visible, edit in place, clear finished.
+- **Focus timer** keeps accurate time in background tabs, remembers its state, shows in the tab title and notifies you.
+- **Weather** is cached, supports °F, and no longer needs your location at install time.
+- **Privacy:** the Google sign-in (which never worked) and the unused sync are gone. Fewer permissions. Fonts and quotes are bundled. Site icons can be set to private.
+- **Toolbar popup** now follows your theme, remembers your last workspace, respects the 8-tile limit and avoids duplicates.
+- **Bookmarks page** has an explicit Workspace / Chrome switch; sort and filter no longer jump between the two.
+- **Accessibility:** keyboard access everywhere, visible focus, screen-reader names, reduced-motion support, larger small text.
+- Many smaller fixes (see the commit history or `dev/tests/run.js` for what is covered).
 
-### Settings & Appearance
+## For developers
 
-Click **Settings** at the bottom of the sidebar.
+```
+manifest.json         Chrome extension manifest (Manifest V3)
+newtab.html           The new-tab page            popup.html   The toolbar popup
+background.js         Timer notifications         fonts/       Bundled fonts
+js/core/              Storage and saving (storage.js), small helpers
+js/widgets/           Clock + weather, quote + focus timer
+js/features/          Bookmarks, history, Quick Access, notes + tasks, Trash, search palette
+js/ui/                Workspaces, settings + themes, navigation + dialogs, event wiring
+js/main.js            Start-up (runs last)        js/a11y.js   Accessibility helpers
+js/popup.js           Popup logic                 js/fouc.js   Applies the theme before first paint
+js/quotes.js          Built-in quotes
+css/themes/           default.css (base) + 11 theme files
+css/polish.css        Shared polish layer         css/popup*.css   Popup styles
+dev/                  Optional tests (not loaded by Chrome)
+```
 
-| Setting | What it does |
-|---|---|
-| **Your Name** | Changes the greeting shown on the dashboard |
-| **Clock Format** | Switch between 12-hour and 24-hour |
-| **Show Seconds** | Toggle seconds display in the clock |
-| **Accent Color** | Pick any color for buttons, highlights, and active states |
-| **Card Glow** | Toggle the glow effect on cards |
-| **Widgets** | Show or hide Notes, Tasks, Quote, and Timer widgets |
-| **Theme Pack** | Choose from 10 themes |
-| **Dark / Light Mode** | Toggle per-theme light and dark variants |
-| **Background Wallpaper** | Enable rotating background images (see [above](#background-wallpaper)) |
-| **Weather Location** | Set your city manually if auto-detection is wrong |
-| **Google Sign-in** | Sync your data across devices |
-| **Export Data** | Download a full JSON backup of your data |
-| **Import Data** | Restore from a previously exported backup |
-| **Clear All Data** | Reset everything to factory defaults |
+- **Storage model.** All state lives in `chrome.storage.local` under seven keys (`user`, `workspaces`, `activeWsId`, `trash`, `settings`, `weatherLocation`, `wsData`). Saves are a three-way merge (`mergeValue` in `js/core/storage.js`) guarded by a Web Lock, so several tabs and the popup can write safely.
+- **Stylesheet order.** A theme's file is placed *in front of* `css/themes/default.css`, which always loads (the themes were tuned against that order, so it is intentional).
+- **Tests.** `cd dev && npm install && npm test` runs the new-tab page in a simulated browser and checks the behaviour listed above.
+- **Publishing.** If you ever zip this for the Web Store, leave out the `dev/` folder.
 
-Click **Save Settings** after making changes.
+## Licence
 
----
-
-### Sidebar Toggle & Compact View
-
-- Click the **panel icon** in the top-left of the topbar to collapse the sidebar. Click again to expand.
-- Click the **grid icon** (⊞) to switch to **Compact View** — bookmarks become smaller tiles. Click again for normal view.
-
----
-
-## Keyboard Shortcuts
-
-| Shortcut | Action |
-|---|---|
-| `/` | Open the command palette (search bookmarks, notes, history) |
-| `Escape` | Close any open modal, panel, or palette |
-
----
-
-## Frequently Asked Questions
-
-**Is my data private?**  
-Yes. All data is stored locally in your browser using Chrome's built-in storage. Nothing is sent to any external server unless you sign in with Google to enable sync.
-
-**Will my data be lost if I uninstall?**  
-Yes — uninstalling removes all locally stored data. Sign in with Google first, or use Export Data to create a backup.
-
-**Can I use TabDeck in other browsers?**  
-TabDeck is built for Google Chrome (Manifest V3). It may work in Chromium-based browsers like Edge or Brave, but this is not officially supported.
-
-**The weather shows the wrong location. How do I fix it?**  
-Go to Settings → scroll to the Weather section → type your city name manually and save.
-
-**I accidentally deleted something. Can I recover it?**  
-Yes. Click **Trash** in the sidebar to see all recently deleted items. Click **Restore** to bring them back.
-
-**How do I import my existing Chrome bookmarks?**  
-Open any folder card → click **⋯** → choose **Import from Chrome** → pick which Chrome folder to import.
-
-**The wallpaper isn't showing. What do I do?**  
-Make sure **Enable Slideshow** is toggled on in Settings → Background Wallpaper. The first image loads within a few seconds. You need an internet connection since photos are fetched online.
-
-**Can I use my own wallpaper image?**  
-Not yet — the current version uses a curated photo library. Custom wallpaper URL support is planned for a future update.
-
----
-
-## Open Source
-
-TabDeck is free and open source software, released under the **MIT License**.
-
-You are free to:
-- ✅ Use it personally or commercially
-- ✅ Copy and modify the code
-- ✅ Share it with others
-- ✅ Build your own version based on it
-
-The only requirement is keeping the original copyright notice when distributing.
-
-See the [`LICENSE`](LICENSE) file for the full legal text.
-
-**Want to contribute?** Feel free to open issues, suggest features, or submit pull requests.
-
----
-
-## Credits
-
-Made with passion by:
-
-- **[Sheikh Shihab Hossain](https://www.linkedin.com/in/sheikh-shihab-hossain/)** — Co-creator & Developer
-- **[Ahsan Jannat](https://www.linkedin.com/in/ahsan-jannat/)** — Co-creator & Developer
-
----
-
-*TabDeck v2.0.0 — Your new tab, your way.*
+MIT. See [LICENSE](LICENSE).

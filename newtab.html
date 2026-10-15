@@ -1,21 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark" data-pack="default">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TabDeck</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,50;1,9..144,300..600,50&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@200;300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/fonts.css">
+  <!-- fouc.js puts the chosen theme's stylesheet here, in front of the base styles below -->
   <script src="js/fouc.js"></script>
-  <link id="theme-pack-css" rel="stylesheet" href="css/themes/default.css">
+  <link id="base-css" rel="stylesheet" href="css/themes/default.css">
+  <link rel="stylesheet" href="css/polish.css">
 </head>
 <body>
 
@@ -58,9 +52,7 @@
   <div class="workspaces-section" id="sidebarFoldersSection">
     <div class="section-header">
       <span>Folders</span>
-      <button class="icon-btn" id="refreshFoldersBtn" data-tip="Refresh folders">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-      </button>
+      <button class="icon-btn" id="addSidebarFolderBtn" data-tip="New folder" aria-label="New folder"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
     </div>
     <div class="sidebar-folders-wrap">
       <div id="sidebarFoldersList" class="sidebar-folders-list">
@@ -81,17 +73,6 @@
     </div>
   </div>
 
-  <div class="sync-card" id="syncCard" style="display:none">
-    <div class="sync-icon" id="syncIconEl">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-    </div>
-    <div class="sync-text">
-      <strong id="syncTitle">Sync across devices</strong>
-      <p id="syncDesc">Login to back up your data and access it anywhere.</p>
-    </div>
-    <button class="sign-in-btn" id="signInBtn">Sign in</button>
-  </div>
-
   </div><!-- end .sidebar-scroll -->
   <div class="sidebar-footer">
     <button class="footer-btn" id="settingsBtn" data-tip="Settings">
@@ -107,7 +88,7 @@
       <div class="jd-up-avatar" id="jdUpAvatar">A</div>
       <div class="jd-up-info">
         <span class="jd-up-name" id="jdUpName">User</span>
-        <span class="jd-up-badge">👑 Pro Plan</span>
+        <span class="jd-up-badge" id="jdUpBadge"></span>
       </div>
     </div>
   </div>
@@ -121,9 +102,9 @@
       <svg class="sidebar-toggle-icon-collapse" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="5,9 7,12 5,15"/></svg>
       <svg class="sidebar-toggle-icon-expand" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><polyline points="13,9 11,12 13,15"/></svg>
     </button>
-    <button class="search-trigger" id="searchTriggerBtn">
+    <button class="search-trigger" id="searchTriggerBtn" aria-keyshortcuts="/ Control+K">
       <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span class="search-trigger-text">Search bookmarks, notes…</span>
+      <span class="search-trigger-text">Search or run a command…</span>
       <kbd class="search-kbd">/</kbd>
     </button>
     <div class="topbar-actions">
@@ -131,7 +112,7 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </button>
       <button class="topbar-btn" data-tip="Settings" id="topSettingsBtn">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       </button>
       <button class="topbar-btn" id="gridViewBtn" data-tip="Compact View">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -188,7 +169,7 @@
           </svg>
         </div>
         <div class="hero-content">
-          <div class="greeting" id="greetingText">Good evening, Ahsan 👋</div>
+          <div class="greeting" id="greetingText">Hello</div>
           <div class="clock-container">
             <span class="clock" id="clockDisplay">00:00</span>
             <span class="clock-ampm" id="clockAmPm">AM</span>
@@ -239,23 +220,16 @@
         <div class="jd-center-search" id="jdCenterSearch">
           <div class="jd-cs-inner">
             <span class="jd-cs-spark">✦</span>
-            <input class="jd-cs-input" id="jdCsInput" placeholder="Ask anything or search...">
+            <input class="jd-cs-input" id="jdCsInput" placeholder="Search bookmarks, notes and history…" aria-label="Search">
             <button class="jd-cs-btn" id="jdCsBtn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
             </button>
           </div>
-          <div class="jd-cs-chips">
-            <a class="jd-chip" href="https://chat.openai.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=chat.openai.com&sz=16" width="14" height="14" alt=""> ChatGPT</a>
-            <a class="jd-chip" href="https://youtube.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=16" width="14" height="14" alt=""> YouTube</a>
-            <a class="jd-chip" href="https://notion.so" target="_blank"><img src="https://www.google.com/s2/favicons?domain=notion.so&sz=16" width="14" height="14" alt=""> Notion</a>
-            <a class="jd-chip" href="https://google.com" target="_blank"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=16" width="14" height="14" alt=""> Google</a>
-            <button class="jd-chip jd-chip-add" id="jdAddChipBtn">+ Add new</button>
-          </div>
+          <div class="jd-cs-chips" id="jdChips"></div>
         </div>
         <div class="jd-quick-actions" id="jdQuickActions">
           <div class="jd-qa-hdr">
             <span>Quick Actions</span>
-            <button class="jd-qa-edit">✎ Edit</button>
           </div>
           <div class="jd-qa-grid">
             <button class="jd-qa-btn" id="jdQaNote">
@@ -320,8 +294,8 @@
           <div class="section-title-row">
             <h2 class="section-title">Quick Access</h2>
             <button class="edit-btn" id="editQuickAccessBtn">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              Edit
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add
             </button>
           </div>
           <div class="quick-access-grid" id="quickAccessGrid"></div>
@@ -342,14 +316,18 @@
 
           <div class="widget tasks-widget" id="widget-tasks">
             <div class="widget-top-row">
-              <span class="widget-label">Today's Tasks</span>
+              <span class="widget-label">Tasks</span>
               <div class="widget-top-actions">
                 <span class="tasks-progress-chip" id="tasksProgressChip"></span>
+                <button class="widget-action-btn" id="clearDoneTasksBtn" style="display:none" data-tip="Clear completed" aria-label="Clear completed tasks">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20,6 9,17 4,12"/></svg>
+                </button>
                 <button class="widget-action-btn" id="addTaskBtn" data-tip="Add task">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
               </div>
             </div>
+            <input type="text" id="taskQuickInput" class="task-quick-input" placeholder="Add a task and press Enter" maxlength="200" aria-label="Add a task" autocomplete="off">
             <div class="tasks-list" id="tasksList"></div>
           </div>
 
@@ -426,6 +404,10 @@
           <button class="btn-secondary" id="addFolderBtn" style="white-space:nowrap;font-size:13px;padding:7px 13px">+ Folder</button>
         </div>
       </div>
+      <div class="seg-control" id="bmSourceSeg" role="tablist" aria-label="Bookmark source">
+        <button type="button" role="tab" class="active" aria-selected="true" data-src="workspace">Workspace bookmarks</button>
+        <button type="button" role="tab" aria-selected="false" data-src="chrome">Chrome bookmarks</button>
+      </div>
       <!-- Workspace switcher tabs -->
       <div class="bm-ws-tabs" id="bmWsTabs"></div>
       <!-- Bookmark toolbar: folder filters + sort -->
@@ -438,7 +420,6 @@
             <option value="za">Z → A</option>
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>
-            <option value="most">Most visited</option>
           </select>
         </div>
       </div>
@@ -691,7 +672,7 @@
       <div class="settings-row">
         <div class="settings-label">
           <span>Enable Slideshow</span>
-          <span class="settings-sub-label" style="font-size:11px;color:var(--text-muted);font-weight:400;margin-top:1px">Rotates beautiful photos automatically</span>
+          <span class="settings-sub-label" style="font-size:11px;color:var(--text-muted);font-weight:400;margin-top:1px">Rotating photos, loaded from picsum.photos</span>
         </div>
         <label class="switch"><input type="checkbox" id="wallpaperToggle"><span class="slider"></span></label>
       </div>
@@ -770,6 +751,34 @@
         <div class="settings-label"><span>Focus Timer Widget</span></div>
         <label class="switch"><input type="checkbox" id="widgetTimerToggle" checked><span class="slider"></span></label>
       </div>
+      <div class="settings-row">
+        <div class="settings-label"><span>Weather</span></div>
+        <label class="switch"><input type="checkbox" id="widgetWeatherToggle" checked><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Weather</div>
+      <div class="settings-row">
+        <div class="settings-label"><span>Temperature</span></div>
+        <div class="toggle-group" id="tempUnitGroup" role="group" aria-label="Temperature unit">
+          <button type="button" class="toggle-opt active" data-unit="C">°C</button>
+          <button type="button" class="toggle-opt" data-unit="F">°F</button>
+        </div>
+      </div>
+      <p class="settings-note">Weather comes from wttr.in. Click the weather card on Home to choose a city.</p>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Privacy</div>
+      <div class="settings-row">
+        <div class="settings-label"><span>Site icons</span></div>
+        <div class="toggle-group" id="faviconSourceGroup" role="group" aria-label="Where site icons come from">
+          <button type="button" class="toggle-opt active" data-src="google">Sharper</button>
+          <button type="button" class="toggle-opt" data-src="chrome">Private</button>
+        </div>
+      </div>
+      <p class="settings-note"><strong>Sharper</strong> asks Google’s icon service for each site’s logo, which tells Google which sites you save. <strong>Private</strong> only uses icons Chrome already has. Your notes, tasks and bookmarks never leave this computer.</p>
     </div>
 
     <div class="settings-section">
@@ -812,10 +821,11 @@
         <div class="about-logo">⚡</div>
         <div>
           <div style="font-weight:700;font-size:15px">TabDeck</div>
-          <div style="color:var(--text-muted);font-size:12px">Version 2.1.0</div>
+          <div style="color:var(--text-muted);font-size:12px">Version 2.2.0</div>
           <div style="color:var(--text-muted);font-size:12px;margin-top:4px">Your beautiful new tab page</div>
         </div>
       </div>
+      <button type="button" class="btn-secondary" id="openShortcutsBtn" style="width:100%;margin-top:12px">Keyboard shortcuts</button>
       <div class="owner-credit">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         Created by <a class="credit-link" href="https://www.linkedin.com/in/sheikh-shihab-hossain/" target="_blank" rel="noopener">Shihab Hossain</a> &amp; <a class="credit-link" href="https://www.linkedin.com/in/ahsan-jannat/" target="_blank" rel="noopener">Ahsan Jannat</a>
@@ -823,7 +833,8 @@
     </div>
 
     <div style="padding:0 0 20px">
-      <button class="btn-primary" id="saveSettingsBtn" style="width:100%">Save Settings</button>
+      <button class="btn-primary" id="saveSettingsBtn" style="width:100%">Done</button>
+      <p class="settings-note" style="text-align:center;margin-top:8px">Changes are saved as you make them.</p>
     </div>
   </div>
 </aside>
@@ -884,7 +895,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3 id="workspaceModalTitle">New Workspace</h3>
-      <button class="modal-close" data-modal="workspaceModal">✕</button>
+      <button class="modal-close" data-modal="workspaceModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Name</label>
@@ -916,7 +927,7 @@
         <span id="notePinLabel">Pin</span>
       </button>
       <span class="note-editor-mode-label" id="noteModalTitle">New Note</span>
-      <button class="modal-close" data-modal="noteModal">✕</button>
+      <button class="modal-close" data-modal="noteModal" aria-label="Close">✕</button>
     </div>
     <div class="note-editor-body">
       <input type="text" id="noteTitle" placeholder="Untitled" class="note-editor-title-input" autocomplete="off">
@@ -930,10 +941,10 @@
       </div>
       <div class="note-editor-bottom">
         <span class="note-word-count" id="noteWordCount">0 words</span>
+        <span class="note-save-state" id="noteSaveState" role="status" aria-live="polite"></span>
         <div class="note-editor-actions">
-          <button class="btn-danger-sm" id="deleteNoteBtn" style="display:none">🗑 Delete</button>
-          <button class="btn-secondary" data-modal="noteModal">Cancel</button>
-          <button class="btn-primary" id="saveNoteBtn">Save</button>
+          <button class="btn-danger-sm" id="deleteNoteBtn">Discard</button>
+          <button class="btn-primary" id="saveNoteBtn">Done</button>
         </div>
       </div>
     </div>
@@ -945,7 +956,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3>Add Task</h3>
-      <button class="modal-close" data-modal="taskModal">✕</button>
+      <button class="modal-close" data-modal="taskModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <input type="text" id="taskInput" placeholder="What do you need to do?" class="modal-input">
@@ -962,7 +973,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3>Add Quick Access</h3>
-      <button class="modal-close" data-modal="quickAccessModal">✕</button>
+      <button class="modal-close" data-modal="quickAccessModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Name</label>
@@ -982,7 +993,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3>Your Profile</h3>
-      <button class="modal-close" data-modal="profileModal">✕</button>
+      <button class="modal-close" data-modal="profileModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <div id="profileGoogleInfo" style="display:none" class="google-profile-info"></div>
@@ -1007,7 +1018,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:5px">
         <div id="folderModalActions" style="display:flex;gap:4px"></div>
-        <button class="modal-close" data-modal="folderModal">✕</button>
+        <button class="modal-close" data-modal="folderModal" aria-label="Close">✕</button>
       </div>
     </div>
     <div class="modal-body" style="padding:12px 16px;max-height:520px;overflow-y:auto">
@@ -1021,7 +1032,7 @@
   <div class="modal" style="max-width:380px">
     <div class="modal-header">
       <h3 id="confirmTitle">Confirm</h3>
-      <button class="modal-close" data-modal="confirmModal">✕</button>
+      <button class="modal-close" data-modal="confirmModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <p id="confirmMessage" style="color:var(--text-secondary);font-size:14px;line-height:1.6"></p>
@@ -1038,19 +1049,19 @@
   <div class="modal" style="max-width:380px">
     <div class="modal-header">
       <h3>📍 Set Weather Location</h3>
-      <button class="modal-close" data-modal="weatherLocationModal">✕</button>
+      <button class="modal-close" data-modal="weatherLocationModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>City Name</label>
       <div style="display:flex;gap:7px">
         <input type="text" id="weatherLocationInput" placeholder="e.g. Dhaka, London, New York..." class="modal-input" style="flex:1">
-        <button class="btn-primary" id="detectLocationBtn" data-tip="Detect my location" style="flex-shrink:0;padding:8px 12px">📡</button>
+        <button class="btn-primary" id="detectLocationBtn" data-tip="Use my device location" aria-label="Use my device location" style="flex-shrink:0;padding:8px 12px">📡</button>
       </div>
-      <div style="font-size:11.5px;color:var(--text-muted)">Click 📡 to detect automatically via GPS.</div>
+      <div style="font-size:11.5px;color:var(--text-muted)">Optional: 📡 uses your device’s location. Chrome asks for permission first.</div>
       <div id="weatherLocationStatus" style="font-size:12px;color:var(--accent-light);min-height:16px;margin-top:4px"></div>
     </div>
     <div class="modal-footer" style="justify-content:space-between">
-      <button class="btn-secondary" id="reDetectWeatherBtn" style="font-size:12px">↺ Re-detect</button>
+      <button class="btn-secondary" id="reDetectWeatherBtn" style="font-size:12px">↺ Use automatic location</button>
       <div style="display:flex;gap:8px">
         <button class="btn-secondary" data-modal="weatherLocationModal">Cancel</button>
         <button class="btn-primary" id="saveWeatherLocationBtn">Set Location</button>
@@ -1064,7 +1075,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3 id="bookmarkEditModalTitle">Add Bookmark</h3>
-      <button class="modal-close" data-modal="bookmarkEditModal">✕</button>
+      <button class="modal-close" data-modal="bookmarkEditModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Title</label>
@@ -1087,7 +1098,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3 id="folderEditModalTitle">New Folder</h3>
-      <button class="modal-close" data-modal="folderEditModal">✕</button>
+      <button class="modal-close" data-modal="folderEditModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Folder Name</label>
@@ -1105,7 +1116,7 @@
   <div class="modal" style="max-width:340px">
     <div class="modal-header">
       <h3>Add to Workspace</h3>
-      <button class="modal-close" data-modal="wsBmChooserModal">✕</button>
+      <button class="modal-close" data-modal="wsBmChooserModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <div class="ws-bm-chooser-grid">
@@ -1127,7 +1138,7 @@
   <div class="modal" style="max-width:380px">
     <div class="modal-header">
       <h3 id="wsFolderEditTitle">New Folder</h3>
-      <button class="modal-close" data-modal="wsFolderEditModal">✕</button>
+      <button class="modal-close" data-modal="wsFolderEditModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Folder Name</label>
@@ -1145,7 +1156,7 @@
   <div class="modal" style="max-width:400px">
     <div class="modal-header">
       <h3 id="wsBookmarkEditTitle">Add Bookmark</h3>
-      <button class="modal-close" data-modal="wsBookmarkEditModal">✕</button>
+      <button class="modal-close" data-modal="wsBookmarkEditModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <label>Title</label>
@@ -1174,7 +1185,7 @@
   <div class="modal">
     <div class="modal-header">
       <h3>Manage Workspaces</h3>
-      <button class="modal-close" data-modal="manageWorkspacesModal">✕</button>
+      <button class="modal-close" data-modal="manageWorkspacesModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body" style="padding:8px 12px">
       <div id="manageWsList"></div>
@@ -1194,7 +1205,7 @@
   <div class="modal" style="width:380px">
     <div class="modal-header">
       <h3>Quick Access Full</h3>
-      <button class="modal-close" data-modal="qaReplaceModal">✕</button>
+      <button class="modal-close" data-modal="qaReplaceModal" aria-label="Close">✕</button>
     </div>
     <div class="modal-body" style="gap:6px">
       <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px">Select an item to replace with <strong id="qaReplaceNewName"></strong>:</p>
@@ -1206,6 +1217,63 @@
   </div>
 </div>
 
-<script src="js/app.js"></script>
+<!-- ===== WELCOME (first run) ===== -->
+<div class="modal-overlay" id="welcomeModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <h3>Welcome to TabDeck</h3>
+      <button class="modal-close" data-modal="welcomeModal" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="welcome-lead">Your new tab, organised. Everything you save stays on this computer.</p>
+      <label for="welcomeName">What should we call you?</label>
+      <input type="text" id="welcomeName" class="modal-input" placeholder="Your name" maxlength="40" autocomplete="given-name">
+      <label class="welcome-check" for="welcomeStarter"><input type="checkbox" id="welcomeStarter" checked> <span>Start with example workspaces and bookmarks (Home, AI, Dev)</span></label>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" data-modal="welcomeModal">Skip</button>
+      <button class="btn-primary" id="welcomeStartBtn">Get started</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== KEYBOARD SHORTCUTS ===== -->
+<div class="modal-overlay" id="shortcutsModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3>Keyboard shortcuts</h3>
+      <button class="modal-close" data-modal="shortcutsModal" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <dl class="shortcut-list">
+        <div><dt><kbd>/</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>Search, or run a command</dd></div>
+        <div><dt><kbd>↑</kbd> <kbd>↓</kbd> <kbd>Enter</kbd></dt><dd>Move through results and open one</dd></div>
+        <div><dt><kbd>Esc</kbd></dt><dd>Close a window or panel</dd></div>
+        <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+        <div><dt>Double-click a task</dt><dd>Edit it</dd></div>
+        <div><dt><kbd>Enter</kbd> in the task box</dt><dd>Add the task</dd></div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<script src="js/quotes.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/helpers.js"></script>
+<script src="js/widgets/clock-weather.js"></script>
+<script src="js/ui/workspaces.js"></script>
+<script src="js/features/chrome-bookmarks.js"></script>
+<script src="js/features/workspace-bookmarks.js"></script>
+<script src="js/features/history-downloads.js"></script>
+<script src="js/features/quick-access.js"></script>
+<script src="js/features/notes-tasks.js"></script>
+<script src="js/widgets/quote-timer.js"></script>
+<script src="js/features/trash-analytics.js"></script>
+<script src="js/ui/settings-theme.js"></script>
+<script src="js/features/search-palette.js"></script>
+<script src="js/ui/navigation-modals.js"></script>
+<script src="js/ui/events.js"></script>
+<script src="js/main.js"></script>
+<script src="js/a11y.js"></script>
 </body>
 </html>
